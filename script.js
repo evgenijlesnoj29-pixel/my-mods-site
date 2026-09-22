@@ -1,8 +1,8 @@
-// ========================================================
-// 🛒 БАЗА ГОТОВЫХ ТОВАРОВ МАГАЗИНА (ИСПРАВЛЕНО: Тестовый мод убран)
-// ========================================================
-// Загружаем моды из памяти браузера, изначально массив пустой
-let shopCatalogDB = JSON.parse(localStorage.getItem('adminShopCatalogDB')) || [];
+// Секретный облачный ключ для хранения модов в глобальной сети
+const GLOBAL_DB_URL = 'https://jsonbin.io';
+const API_KEY = '$2a$10$7Z2ZqVRE4eM/C0Y2L.7lEeX/uRjA.3yS.A2F/7G1vY.C2V3b4N5M6'; // Бесплатный ключ доступа
+
+let shopCatalogDB = [];
 
 // 🛠️ СТАНДАРТНАЯ БАЗА ПОЛЬЗОВАТЕЛЕЙ И ОТЗЫВОВ
 let usersDB = JSON.parse(localStorage.getItem('staticUsersDB')) || {
@@ -15,13 +15,28 @@ let reviewsDB = JSON.parse(localStorage.getItem('staticReviewsDB')) || [
     { text: "Была ошибка в коде, автор исправил за пару минут бесплатно, как и обещал.", author: "Слава 01" }
 ];
 
-// Функция рендеринга товаров магазина (С проверкой: есть моды или нету)
+// ГЛОБАЛЬНАЯ ЗАГРУЗКА: Качаем моды из облака, чтобы их видели ВСЕ люди
+async function fetchGlobalShopItems() {
+    try {
+        const response = await fetch(GLOBAL_DB_URL + '/latest', {
+            headers: { 'X-Master-Key': API_KEY }
+        });
+        const resData = await response.json();
+        shopCatalogDB = resData.record.mods || [];
+        renderShopItems();
+    } catch (error) {
+        console.error("Ошибка загрузки глобальной базы:", error);
+        shopCatalogDB = [];
+        renderShopItems();
+    }
+}
+
+// Функция рендеринга товаров магазина (Для всех юзеров)
 function renderShopItems(filterText = '') {
     const shopContainer = document.getElementById('shopItemsContainer');
     if (!shopContainer) return;
     shopContainer.innerHTML = '';
 
-    // Если модов вообще нет в базе
     if (shopCatalogDB.length === 0) {
         shopContainer.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 40px; font-size: 1.1rem; font-weight: 600;">Модов еще нету</p>`;
         return;
@@ -71,11 +86,11 @@ if (shopSearchInput) {
 }
 
 // ========================================================
-// ⚙️ СИСТЕМА ДОБАВЛЕНИЯ МОДОВ ДЛЯ АДМИНИСТРАТОРА
+// ⚙️ ЖИВАЯ АДМИНКА: Пушит данные в облако для ВСЕХ
 // ========================================================
 const addModForm = document.getElementById('addModForm');
 if (addModForm) {
-    addModForm.addEventListener('submit', (e) => {
+    addModForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const title = document.getElementById('modTitle').value.trim();
@@ -85,16 +100,27 @@ if (addModForm) {
         const link = document.getElementById('modLink').value.trim();
         const color = document.getElementById('modColor').value;
 
-        // Создаем и пушим новый товар в массив
+        // Временно добавляем на экран для скорости
         shopCatalogDB.unshift({ title, version, desc, price, color, link });
-        
-        // Сохраняем обновленную базу модов в localStorage
-        localStorage.setItem('adminShopCatalogDB', JSON.stringify(shopCatalogDB));
-        
-        // Сбрасываем форму и обновляем сетку магазина
-        addModForm.reset();
         renderShopItems();
-        showToast('Мод успешно выложен на сайт!');
+        showToast('Отправка в глобальную сеть...');
+
+        // Сохраняем массив модов в глобальное интернет-облако
+        try {
+            await fetch(GLOBAL_DB_URL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Master-Key': API_KEY
+                },
+                body: JSON.stringify({ mods: shopCatalogDB })
+            });
+            addModForm.reset();
+            showToast('Мод успешно выложен для ВСЕХ!');
+        } catch (error) {
+            showToast('Ошибка сохранения в облако!');
+            console.error(error);
+        }
     });
 }
 
@@ -124,10 +150,10 @@ function showToast(text) {
     }, 3000);
 }
 
-// Мгновенный запуск
+// Запуск при старте сайта
 window.addEventListener('DOMContentLoaded', () => {
     renderReviews();
-    renderShopItems();
+    fetchGlobalShopItems(); // Сразу стягиваем моды из интернета
 });
 
 const addReviewForm = document.getElementById('addReviewForm');
@@ -206,7 +232,7 @@ if (themeToggle) {
     });
 }
 
-// Авторизация и скрытая проверка АДМИНА
+// Авторизация
 const authModal = document.getElementById('authModal');
 const openAuthBtn = document.getElementById('openAuthBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
@@ -225,10 +251,11 @@ let authMode = 'login';
 function checkUser() {
     const loggedUser = localStorage.getItem('loggedUser');
     if (loggedUser) {
-        if (authSection) authSection.innerHTML = `<button class="capsule-btn" id="logoutBtn">ВЫЙТИ</button>`;
+if (authSection) authSection.innerHTML = `<button class="capsule-btn" id="logoutBtn">ВЫЙТИ</button>`;
         if (clientGreeting) clientGreeting.textContent = `Привет, ${loggedUser}! Рады видеть тебя снова.`;
         if (clientZone) clientZone.style.display = 'block';
         
+        // ЕСЛИ ТЫ АДМИН — ОФИЦИАЛЬНО ОТКРЫВАЕМ ПАНЕЛЬ СОЗДАНИЯ МОДОВ
         if (loggedUser === 'admin' && adminPanelBlock) {
             adminPanelBlock.style.display = 'block';
         }
@@ -247,7 +274,7 @@ checkUser();
 if (orderTelegramBtn) {
     orderTelegramBtn.addEventListener('click', () => {
         const loggedUser = localStorage.getItem('loggedUser');
-                if (loggedUser) {
+        if (loggedUser) {
             window.open('https://t.me', '_blank');
         } else {
             showToast('Зарегистрируйтесь либо войдите в аккаунт, чтобы воспользоваться данной услугой');
@@ -302,7 +329,7 @@ if (authForm) {
     });
 }
 
-// Подвал
+// Юридический подвал
 const legalModal = document.getElementById('legalModal');
 const closeLegalBtn = document.getElementById('closeLegalBtn');
 const legalTitle = document.getElementById('legalTitle');
@@ -325,4 +352,3 @@ document.getElementById('link-privacy')?.addEventListener('click', (e) => { e.pr
 document.getElementById('link-terms')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('terms'); });
 document.getElementById('link-data')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('data'); });
 if (closeLegalBtn) closeLegalBtn.addEventListener('click', () => legalModal.style.display = 'none');
-
