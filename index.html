@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODS PRODUCTION</title>
-    <!-- Подключаем пак красивых геймерских шрифтов -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Golos+Text:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- КИНЕМАТОГРАФИЧНАЯ ЗАСТАВКА С КАРТИНКОЙ -->
+    <div id="intro-screen">
+        <div class="intro-title">MODS PRODUCTION</div>
+    </div>
 
     <div id="notification-container"></div>
 
@@ -25,7 +29,7 @@
             <div class="nav-right">
                 <button class="capsule-btn" id="themeToggle">ТЕМНАЯ</button>
                 <div id="authSection">
-                    <button class="capsule-btn filled" id="openAuthBtn">Войти</button>
+                    <button class="capsule-btn blue-btn" id="openAuthBtn">Войти</button>
                 </div>
             </div>
         </nav>
@@ -38,23 +42,23 @@
             <h1>MODS PRODUCTION</h1>
             <p class="subtitle">Создание приватных модификаций и скриптов под твои идеи.</p>
             
-            <div id="clientZone" class="glass-card" style="display: none; text-align: center;">
+            <div id="clientZone" class="glass-card layout-animation" style="display: none; text-align: center;">
                 <h3>ДОСТУП В ПАНЕЛЬ ОТКРЫТ</h3>
                 <p id="clientGreeting"></p>
             </div>
 
             <div class="features-grid">
-                <div class="glass-card">
+                <div class="glass-card layout-animation">
                     <h4>СКОРОСТЬ</h4>
                     <p>Скрипты за пару часов. Крупные моды — от 1 дня.</p>
                 </div>
-                <div class="glass-card">
+                <div class="glass-card layout-animation">
                     <h4>ОПТИМИЗАЦИЯ</h4>
-                    <p>Код без лагов. Модификации не просадят FPS in игре.</p>
+                    <p>Код без лагов. Модификации не просадят FPS в игре.</p>
                 </div>
             </div>
 
-            <div class="glass-card full-width">
+            <div class="glass-card full-width layout-animation">
                 <h3>ПОДДЕРЖИВАЕМЫЕ ПЛАТФОРМЫ</h3>
                 <div class="tags-container">
                     <span class="game-tag">Minecraft (Forge)</span>
@@ -64,26 +68,22 @@
                 </div>
             </div>
 
-            <div class="glass-card full-width">
+            <div class="glass-card full-width layout-animation">
                 <h3>КАК СДЕЛАТЬ ЗАКАЗ</h3>
                 <p style="line-height: 1.6; margin-bottom: 20px;">Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь и забираешь готовый файл.</p>
-                
-                <!-- Новая интерактивная плашка заказа (Связь с Telegram) -->
                 <div style="text-align: center; margin-top: 15px;">
                     <button class="capsule-btn blue-btn" id="orderTelegramBtn" style="padding: 12px 30px; font-size: 0.9rem;">Оформить заказ через Telegram</button>
                 </div>
             </div>
         </section>
 
-        <!-- СЕКЦИЯ: ЦЕНЫ (С твоими реальными ценами) -->
+        <!-- СЕКЦИЯ: ЦЕНЫ -->
         <section id="prices" class="scroll-section">
             <h2>Товары и тарифы</h2>
             <p style="color: var(--text-muted); margin-bottom: 30px;">Выберите нужный вариант для вашего проекта модификации.</p>
             
             <div class="products-grid">
-                
-                <!-- Фиолетовая плашка (Версии 1.21 - 1.21.11) -->
-                <div class="product-card purple">
+                <div class="product-card purple layout-animation">
                     <div class="product-header">
                         <span class="product-meta">ТАРИФ Версии 1.21 - 1.21.11</span>
                         <h3>Актуальные сборки</h3>
@@ -92,8 +92,7 @@
                     <div class="product-price">50 ₽</div>
                 </div>
 
-                <!-- Синяя плашка (Версии 1.12.2 - 1.20) -->
-                <div class="product-card blue">
+                <div class="product-card blue layout-animation">
                     <div class="product-header">
                         <span class="product-meta">ТАРИФ Версии 1.12.2 - 1.20</span>
                         <h3>Классические сборки</h3>
@@ -102,8 +101,7 @@
                     <div class="product-price">50 ₽</div>
                 </div>
 
-                <!-- Зеленая плашка (Фиксы) -->
-                <div class="product-card green">
+                <div class="product-card green layout-animation">
                     <div class="product-header">
                         <span class="product-meta">РАЗОВАЯ УСЛУГА</span>
                         <h3>Фиксы и баги</h3>
@@ -111,7 +109,6 @@
                     <p class="product-desc">Быстрое исправление чужих ошибок, доработка стороннего кода или если я где-то накосячил.</p>
                     <div class="product-price">0 ₽</div>
                 </div>
-
             </div>
         </section>
 
@@ -119,7 +116,7 @@
         <section id="reviews" class="scroll-section">
             <h2>Отзывы заказчиков</h2>
             
-            <div class="review-form-block">
+            <div class="review-form-block layout-animation">
                 <h3>Оставить отзыв</h3>
                 <form id="addReviewForm">
                     <input type="text" id="reviewAuthor" placeholder="Твое имя" required>
@@ -140,12 +137,23 @@
         <div class="footer-content">
             <p>© 2026 MODS PRODUCTION. Все права защищены.</p>
             <p class="footer-links">
-                <a href="#" onclick="alert('Вы согласились со всеми правилами проекта!')">Политика конфиденциальности</a> | 
-                <a href="#" onclick="alert('Все данные обрабатываются в локальной базе данных.')">Пользовательское соглашение</a> | 
-                <a href="#" onclick="alert('Куда ты жмешь, тут все равно ничего нет :)')">Согласие на обработку персональных данных</a>
+                <a href="#" id="link-privacy">Политика конфиденциальности</a> | 
+                <a href="#" id="link-terms">Пользовательское соглашение</a> | 
+                <a href="#" id="link-data">Обработка данных</a>
             </p>
         </div>
     </footer>
+
+    <!-- Общее модальное окно для юридических текстов -->
+    <div class="modal" id="legalModal">
+        <div class="modal-content" style="max-width: 500px; text-align: left;">
+            <span class="close-btn" id="closeLegalBtn">&times;</span>
+            <h3 id="legalTitle" style="text-transform: uppercase; margin-bottom: 20px;">Юридический документ</h3>
+            <div id="legalText" style="font-size: 0.9rem; line-height: 1.6; max-height: 300px; overflow-y: auto; color: var(--text-muted);">
+                Текст документа...
+            </div>
+        </div>
+    </div>
 
     <!-- Модалка аккаунта -->
     <div class="modal" id="authModal">
