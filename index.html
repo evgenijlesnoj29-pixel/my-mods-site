@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!-- Контейнер для уведомлений сверху -->
+    <!-- Контейнер для кастомных уведомлений сверху -->
     <div id="notification-container"></div>
 
     <!-- Капсульная навигация -->
@@ -32,45 +32,77 @@
         
         <!-- СТРАНИЦА: ГЛАВНАЯ -->
         <div id="page-main" class="page active">
-            <h1>MODS PRODUCTION</h1>
-            <p class="subtitle">Создание модов на заказ под твои идеи.</p>
+            <div class="hero-section">
+                <h1>MODS PRODUCTION</h1>
+                <p class="subtitle">Приватная разработка скриптов и модификаций под твои задачи.</p>
+            </div>
             
-            <div id="clientZone" style="display: none;">
-                <h3>ДОСТУП В ПАНЕЛЬ ОТКРЫТ</h3>
-                <p id="clientGreeting"></p>
+            <div id="clientZone" class="glass-card" style="display: none; border-color: #ffffff; text-align: center; margin-bottom: 25px;">
+                <h3 style="margin:0;">ДОСТУП В ПАНЕЛЬ ОТКРЫТ</h3>
+                <p id="clientGreeting" style="margin: 10px 0 0 0;"></p>
             </div>
 
             <div class="features-grid">
-                <div class="feature-box">
+                <div class="glass-card">
                     <h4>СКОРОСТЬ</h4>
-                    <p>Скрипты за пару часов. Крупные моды — от 1 дня.</p>
+                    <p>Простые скрипты и фиксы собираю за пару часов. Крупные и сложные проекты — от 1 дня.</p>
                 </div>
-                <div class="feature-box">
+                <div class="glass-card">
                     <h4>ОПТИМИЗАЦИЯ</h4>
-                    <p>Код без лагов. Моды не просадят FPS в игре.</p>
+                    <p>Пишу чистый код без мусора. Модификации не нагружают систему и не просаживают FPS.</p>
                 </div>
             </div>
 
-            <div class="feature-box full-width">
-                <h3>КАК СДЕЛАТЬ ЗАКАЗ</h3>
-                <p>Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь 50 ₽ и забираешь файл.</p>
+            <!-- НОВЫЙ БЛОК: СТАК И ИГРЫ -->
+            <div class="glass-card full-width">
+                <h3>ПОДДЕРЖИВАЕМЫЕ ИГРЫ И СТЭК</h3>
+                <div class="tags-container">
+                    <span class="game-tag">Minecraft (Forge / Fabric)</span>
+                    <span class="game-tag">GTA V (FiveM / AltV)</span>
+                    <span class="game-tag">Garry's Mod (Lua)</span>
+                    <span class="game-tag">S.T.A.L.K.E.R.</span>
+                    <span class="game-tag">Java / C# / C++</span>
+                </div>
+            </div>
+
+            <div class="glass-card full-width">
+                <h3>ПРОЦЕСС РАБОТЫ И ЗАКАЗА</h3>
+                <div class="steps-list">
+                    <div class="step-item"><span>1</span> Напиши мне по контактам, подробно опиши идею или скинь готовое ТЗ.</div>
+                    <div class="step-item"><span>2</span> Мы обсуждаем детали проекта, и я утверждаю фиксированную цену в 50 ₽.</div>
+                    <div class="step-item"><span>3</span> Я пишу код, полностью тестирую его и скидываю тебе видео-доказательство работы.</div>
+                    <div class="step-item"><span>4</span> После подтверждения ты переводишь оплату, а я отдаю чистый файл мода.</div>
+                </div>
+            </div>
+
+            <!-- НОВЫЙ БЛОК: МОНИТОРИНГ ЗАКАЗОВ -->
+            <div class="glass-card full-width">
+                <h3>МОНИТОРИНГ ТЕКУЩИХ ЗАКАЗОВ</h3>
+                <div class="status-row">
+                    <span>Заказ #114 (Скрипт Lua)</span>
+                    <span class="status-badge progress">В РАБОТЕ (85%)</span>
+                </div>
+                <div class="status-row">
+                    <span>Заказ #113 (Мод Forge 1.20)</span>
+                    <span class="status-badge ready">ГОТОВ / СДАН</span>
+                </div>
             </div>
         </div>
 
         <!-- СТРАНИЦА: ЦЕНЫ -->
         <div id="page-prices" class="page">
-            <h2>Цены на разработку</h2>
+            <h2>Прайс-лист</h2>
             <div class="capsule-card">
                 <div class="card-info">
                     <h3>Создание мода под ключ</h3>
-                    <p>Сборка механик по твоему детальному ТЗ.</p>
+                    <p>Проработка логики, механик и сборка по твоему детальному описанию.</p>
                 </div>
                 <div class="price-value">50 ₽</div>
             </div>
             <div class="capsule-card">
                 <div class="card-info">
                     <h3>Исправление багов</h3>
-                    <p>Если я накосячил — исправлю полностью бесплатно.</p>
+                    <p>Если в ходе тестов или работы вылез мой косяк — исправлю полностью бесплатно.</p>
                 </div>
                 <div class="price-value">0 ₽</div>
             </div>
@@ -78,20 +110,19 @@
 
         <!-- СТРАНИЦА: ОТЗЫВЫ -->
         <div id="page-reviews" class="page">
-            <h2>Отзывы заказчиков</h2>
+            <h2>Отзывы клиентов</h2>
             
-            <!-- Форма добавления отзыва -->
             <div class="review-form-block">
                 <h3>Оставить отзыв</h3>
                 <form id="addReviewForm">
                     <input type="text" id="reviewAuthor" placeholder="Твое имя" required>
                     <input type="text" id="reviewText" placeholder="Текст отзыва (макс. 50 символов)" required>
-                    <button type="submit" class="capsule-btn filled">Отправить</button>
+                    <button type="submit" class="capsule-btn filled">Отправить отзыв</button>
                 </form>
             </div>
 
             <div class="reviews-grid" id="reviewsContainer">
-                <!-- Отзывы грузятся отсюда -->
+                <!-- Сюда инфа прилетит из скрипта -->
             </div>
         </div>
 
