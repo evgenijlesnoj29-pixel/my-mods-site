@@ -6,12 +6,12 @@
     --text-main: #111111;
     --text-muted: #6b7280;
     --card-hover-border: rgba(0, 0, 0, 0.25);
-    /* Настоящий сочный синий Apple-цвет */
     --blue-color: #0066cc;
     --blue-hover: #0052a3;
 }
 
 body {
+    /* Базовый чистый шрифт для текстов описания */
     font-family: 'Golos Text', -apple-system, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
@@ -37,8 +37,10 @@ body {
 }
 .nav-links { display: flex; gap: 2px; }
 .nav-links button {
+    /* Стильный моноширинный шрифт для меню */
+    font-family: 'JetBrains Mono', monospace; 
     background: none; border: none; color: var(--text-muted);
-    padding: 8px 14px; cursor: pointer; font-weight: 600;
+    padding: 8px 14px; cursor: pointer; font-weight: 700;
     font-size: 0.8rem; border-radius: 30px; text-transform: uppercase;
     transition: all 0.2s ease;
 }
@@ -46,36 +48,43 @@ body {
 .nav-links button.active { background: rgba(0, 0, 0, 0.06); color: var(--text-main); }
 .nav-right { display: flex; align-items: center; }
 
-/* Базовые кнопки */
+/* Кнопки */
 .capsule-btn {
+    font-family: 'JetBrains Mono', monospace;
     background: rgba(0, 0, 0, 0.03); border: 1px solid var(--border-color);
     color: var(--text-main); padding: 8px 18px; border-radius: 30px;
-    cursor: pointer; font-weight: 600; font-size: 0.8rem;
+    cursor: pointer; font-weight: 700; font-size: 0.8rem;
     transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* ИСПРАВЛЕННЫЕ НАСТОЯЩИЕ СИНИЕ КНОПКИ С ПРИБЛИЖЕНИЕМ */
+/* Синие кнопки с приближением */
 .navbar .blue-btn, .review-form-block .blue-btn, .modal-content .blue-btn {
     background: var(--blue-color) !important;
     color: #ffffff !important;
     border: none !important;
     box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
-    font-weight: 700;
+    font-weight: 800;
 }
 .navbar .blue-btn:hover, .review-form-block .blue-btn:hover, .modal-content .blue-btn:hover {
     background: var(--blue-hover) !important;
-    transform: scale(1.06); /* Эффект приближения */
+    transform: scale(1.06);
     box-shadow: 0 6px 16px rgba(0, 102, 204, 0.35);
 }
 
 /* Контейнер */
 .container { max-width: 750px; margin: 150px auto 40px auto; padding: 0 20px; box-sizing: border-box; }
-
 .scroll-section { padding-top: 100px; padding-bottom: 100px; box-sizing: border-box; }
 
-h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; text-align: center; }
-h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -0.5px; }
-.subtitle { color: var(--text-muted); text-align: center; margin-top: 8px; margin-bottom: 40px; font-size: 1rem; }
+/* КРАСИВЫЕ ПЛОТНЫЕ ЗАГОЛОВКИ */
+h1 { 
+    font-family: 'Unbounded', sans-serif; 
+    font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; margin: 0; text-align: center; 
+}
+h2 { 
+    font-family: 'Unbounded', sans-serif; 
+    font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -0.5px; 
+}
+.subtitle { color: var(--text-muted); text-align: center; margin-top: 12px; margin-bottom: 40px; font-size: 1rem; }
 
 /* Карточки */
 .glass-card, .review-card, .review-form-block {
@@ -86,8 +95,8 @@ h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: u
     padding: 24px 28px; border-radius: 16px; margin-bottom: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.02);
 }
-.glass-card h3 { margin: 0 0 12px 0; font-size: 1.05rem; font-weight: 700; text-transform: uppercase; }
-.glass-card h4 { margin: 0 0 8px 0; font-size: 1rem; font-weight: 700; text-transform: uppercase; }
+.glass-card h3 { font-family: 'Unbounded', sans-serif; margin: 0 0 12px 0; font-size: 1rem; font-weight: 800; text-transform: uppercase; }
+.glass-card h4 { font-family: 'Unbounded', sans-serif; margin: 0 0 8px 0; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; }
 .glass-card p { color: var(--text-muted); margin: 0; font-size: 0.9rem; line-height: 1.5; }
 
 /* Сетка тарифов */
@@ -102,66 +111,43 @@ h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: u
 .product-card.blue { background: linear-gradient(135deg, #2b4865 0%, #183153 100%); }
 .product-card.green { background: linear-gradient(135deg, #24523a 0%, #163524 100%); }
 
-.product-meta { font-size: 0.75rem; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.5px; }
-.product-card h3 { margin: 5px 0 15px 0; font-size: 1.3rem; font-weight: 800; color: #ffffff; }
+.product-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.5px; }
+.product-card h3 { font-family: 'Unbounded', sans-serif; margin: 5px 0 15px 0; font-size: 1.15rem; font-weight: 900; color: #ffffff; }
 .product-desc { font-size: 0.9rem; line-height: 1.5; opacity: 0.8; margin: 0 0 25px 0; }
-.product-price { font-size: 1.6rem; font-weight: 900; color: #ffffff; }
+.product-price { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 800; color: #ffffff; }
 
-/* Сетки преимуществ */
+/* Сетки */
 .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
 .full-width { width: 100%; }
 .tags-container { display: flex; flex-wrap: wrap; gap: 8px; }
 .game-tag {
+    font-family: 'JetBrains Mono', monospace;
     background: rgba(0, 0, 0, 0.03); border: 1px solid var(--border-color);
-    padding: 6px 14px; border-radius: 30px; font-size: 0.8rem; font-weight: 600;
+    padding: 6px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 700;
 }
 
 /* Отзывы */
 .reviews-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-.review-form-block h3 { margin: 0 0 15px 0; font-size: 1.05rem; text-transform: uppercase; }
-.review-form-block form { display: flex; flex-direction: column; gap: 12px; }
-
-/* СТИЛЬНЫЕ КАНАДСКИЕ ИНПУТЫ ДЛЯ ОТЗЫВОВ */
+.review-form-block h3 { font-family: 'Unbounded', sans-serif; margin: 0 0 15px 0; font-size: 1rem; text-transform: uppercase; }
+.review-form-block form { display: flex; flex-direction: column; gap: 10px; }
 .review-form-block input {
-    padding: 12px 20px; 
-    background: rgba(0, 0, 0, 0.02); 
-    border: 1px solid var(--border-color);
-    color: var(--text-main); 
-    border-radius: 30px; 
-    outline: none; 
-    font-size: 0.9rem; 
-    font-family: inherit;
-    transition: all 0.2s ease;
+    padding: 12px 20px; background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color);
+    color: var(--text-main); border-radius: 30px; outline: none; font-size: 0.9rem; font-family: inherit;
 }
 .review-form-block input:focus {
-    background: #ffffff;
-    border-color: rgba(0, 102, 204, 0.4);
-    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.08);
+    background: #ffffff; border-color: rgba(0, 102, 204, 0.4); box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.08);
 }
 
-/* КРАСИВЫЙ СТИЛЬНЫЙ ПОДВАЛ (МАТОВОЕ СТЕКЛО) */
+/* Подвал */
 .site-footer {
-    background: var(--card-bg);
-    border-top: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
-    padding: 30px 20px;
-    text-align: center;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-top: 80px;
+    background: var(--card-bg); border-top: 1px solid var(--border-color);
+    backdrop-filter: blur(10px); padding: 30px 20px; text-align: center;
+    font-size: 0.85rem; color: var(--text-muted); margin-top: 80px;
 }
 .footer-content p { margin: 6px 0; }
-.footer-links { margin-top: 10px; }
-.footer-links a {
-    color: var(--text-muted);
-    text-decoration: none; /* Убрали синее подчеркивание из 90х */
-    margin: 0 10px;
-    font-weight: 600;
-    transition: color 0.2s ease;
-}
-.footer-links a:hover { 
-    color: var(--blue-color); /* При наведении плавно синеет */
-}
+.footer-links { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
+.footer-links a { color: var(--text-muted); text-decoration: none; margin: 0 10px; font-weight: 700; transition: color 0.2s ease; }
+.footer-links a:hover { color: var(--blue-color); }
 
 /* Модалка */
 .modal {
@@ -173,6 +159,7 @@ h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: u
     padding: 35px; border-radius: 20px; width: 100%; max-width: 270px; position: relative; text-align: center;
     box-shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
+.modal-content h3 { font-family: 'Unbounded', sans-serif; font-size: 1rem; }
 .modal-content input {
     width: 100%; padding: 12px 20px; margin: 8px 0; box-sizing: border-box;
     background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color);
@@ -184,6 +171,7 @@ h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: u
 /* Уведомления */
 #notification-container { position: fixed; top: 25px; right: 25px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
 .toast {
+    font-family: 'JetBrains Mono', monospace;
     background: var(--text-main); color: #ffffff; padding: 10px 20px; border-radius: 30px;
     font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
     transform: translateX(130%); transition: transform 0.3s ease;
@@ -192,7 +180,7 @@ h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: u
 
 @media (max-width: 600px) {
     .navbar { padding: 8px 12px; }
-    .nav-links button { padding: 6px 10px; font-size: 0.75rem; }
+    .nav-links button { padding: 6px 10px; font-size: 0.7rem; }
     .features-grid { grid-template-columns: 1fr; }
-    h1 { font-size: 1.8rem; }
+    h1 { font-size: 1.6rem; }
 }
