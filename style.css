@@ -5,12 +5,10 @@
     --border-color: rgba(0, 0, 0, 0.08); 
     --text-main: #111111;
     --text-muted: #6b7280;
-    --accent: #111111;
-    --accent-invert: #ffffff;
     --card-hover-border: rgba(0, 0, 0, 0.25);
-    /* Красивый геймерский синий цвет */
-    --blue-color: #3b82f6;
-    --blue-hover: #2563eb;
+    /* Настоящий сочный синий Apple-цвет */
+    --blue-color: #0066cc;
+    --blue-hover: #0052a3;
 }
 
 body {
@@ -23,7 +21,7 @@ body {
     scroll-behavior: smooth;
 }
 
-/* Компактный навигатор сверху */
+/* Навигатор сверху */
 .navbar-container {
     position: fixed; top: 20px; left: 0; right: 0;
     display: flex; justify-content: center; z-index: 1000; padding: 0 20px;
@@ -48,36 +46,32 @@ body {
 .nav-links button.active { background: rgba(0, 0, 0, 0.06); color: var(--text-main); }
 .nav-right { display: flex; align-items: center; }
 
-/* Капсульные кнопки */
+/* Базовые кнопки */
 .capsule-btn {
     background: rgba(0, 0, 0, 0.03); border: 1px solid var(--border-color);
     color: var(--text-main); padding: 8px 18px; border-radius: 30px;
     cursor: pointer; font-weight: 600; font-size: 0.8rem;
-    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* ТЕ САМЫЕ СИНИЕ КНОПКИ С ЭФФЕКТОМ ПРИБЛИЖЕНИЯ */
-.capsule-btn.blue-btn {
-    background: var(--blue-color);
-    color: #ffffff;
-    border: none;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+/* ИСПРАВЛЕННЫЕ НАСТОЯЩИЕ СИНИЕ КНОПКИ С ПРИБЛИЖЕНИЕМ */
+.navbar .blue-btn, .review-form-block .blue-btn, .modal-content .blue-btn {
+    background: var(--blue-color) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+    font-weight: 700;
 }
-.capsule-btn.blue-btn:hover {
-    background: var(--blue-hover);
-    transform: scale(1.08); /* Эффект приближения */
-    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+.navbar .blue-btn:hover, .review-form-block .blue-btn:hover, .modal-content .blue-btn:hover {
+    background: var(--blue-hover) !important;
+    transform: scale(1.06); /* Эффект приближения */
+    box-shadow: 0 6px 16px rgba(0, 102, 204, 0.35);
 }
 
 /* Контейнер */
-.container { max-width: 850px; margin: 150px auto 40px auto; padding: 0 20px; box-sizing: border-box; }
+.container { max-width: 750px; margin: 150px auto 40px auto; padding: 0 20px; box-sizing: border-box; }
 
-/* Отступы для скролла */
-.scroll-section {
-    padding-top: 100px;
-    padding-bottom: 100px;
-    box-sizing: border-box;
-}
+.scroll-section { padding-top: 100px; padding-bottom: 100px; box-sizing: border-box; }
 
 h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; text-align: center; }
 h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -0.5px; }
@@ -125,29 +119,49 @@ h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: u
 /* Отзывы */
 .reviews-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
 .review-form-block h3 { margin: 0 0 15px 0; font-size: 1.05rem; text-transform: uppercase; }
-.review-form-block form { display: flex; flex-direction: column; gap: 10px; }
+.review-form-block form { display: flex; flex-direction: column; gap: 12px; }
+
+/* СТИЛЬНЫЕ КАНАДСКИЕ ИНПУТЫ ДЛЯ ОТЗЫВОВ */
 .review-form-block input {
-    padding: 12px 20px; background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color);
-    color: var(--text-main); border-radius: 30px; outline: none; font-size: 0.9rem; font-family: inherit;
+    padding: 12px 20px; 
+    background: rgba(0, 0, 0, 0.02); 
+    border: 1px solid var(--border-color);
+    color: var(--text-main); 
+    border-radius: 30px; 
+    outline: none; 
+    font-size: 0.9rem; 
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+.review-form-block input:focus {
+    background: #ffffff;
+    border-color: rgba(0, 102, 204, 0.4);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.08);
 }
 
-/* ЮРИДИЧЕСКИЙ ПОДВАЛ В САМОМ НИЗУ */
+/* КРАСИВЫЙ СТИЛЬНЫЙ ПОДВАЛ (МАТОВОЕ СТЕКЛО) */
 .site-footer {
-    background: rgba(0, 0, 0, 0.02);
+    background: var(--card-bg);
     border-top: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
     padding: 30px 20px;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
-    margin-top: 60px;
+    margin-top: 80px;
 }
-.footer-content p { margin: 5px 0; }
+.footer-content p { margin: 6px 0; }
+.footer-links { margin-top: 10px; }
 .footer-links a {
     color: var(--text-muted);
-    text-decoration: none;
-    margin: 0 5px;
+    text-decoration: none; /* Убрали синее подчеркивание из 90х */
+    margin: 0 10px;
+    font-weight: 600;
+    transition: color 0.2s ease;
 }
-.footer-links a:hover { color: var(--text-main); text-decoration: underline; }
+.footer-links a:hover { 
+    color: var(--blue-color); /* При наведении плавно синеет */
+}
 
 /* Модалка */
 .modal {
@@ -170,7 +184,7 @@ h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: u
 /* Уведомления */
 #notification-container { position: fixed; top: 25px; right: 25px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
 .toast {
-    background: var(--text-main); color: var(--accent-invert); padding: 10px 20px; border-radius: 30px;
+    background: var(--text-main); color: #ffffff; padding: 10px 20px; border-radius: 30px;
     font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
     transform: translateX(130%); transition: transform 0.3s ease;
 }
