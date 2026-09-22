@@ -107,7 +107,7 @@ if (themeToggle) {
 }
 
 // ========================================================
-// 🔐 АВТОРИЗАЦИЯ И УМНАЯ КНОПКА ЗАКАЗА В TELEGRAM
+// 🔐 ИСПРАВЛЕННАЯ АВТОРИЗАЦИЯ И УМНАЯ КНОПКА ЗАКАЗА
 // ========================================================
 const authModal = document.getElementById('authModal');
 const openAuthBtn = document.getElementById('openAuthBtn');
@@ -123,8 +123,9 @@ const orderTelegramBtn = document.getElementById('orderTelegramBtn');
 
 let authMode = 'login';
 
+// ИСПРАВЛЕНО: Теперь проверяем постоянный вход через localStorage
 function checkUser() {
-    const loggedUser = sessionStorage.getItem('loggedUser');
+    const loggedUser = localStorage.getItem('loggedUser');
     if (loggedUser) {
         if (authSection) authSection.innerHTML = `<button class="capsule-btn" id="logoutBtn">ВЫЙТИ</button>`;
         if (clientGreeting) clientGreeting.textContent = `Привет, ${loggedUser}! Рады видеть тебя снова.`;
@@ -133,7 +134,7 @@ function checkUser() {
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
-                sessionStorage.removeItem('loggedUser');
+                localStorage.removeItem('loggedUser'); // Удаляем лог при выходе
                 location.reload();
             });
         }
@@ -141,13 +142,13 @@ function checkUser() {
 }
 checkUser();
 
-// ЛОГИКА ДЛЯ ЗАКРЫТОЙ КНОПКИ ЗАКАЗА
+// ИСПРАВЛЕНО: Кнопка теперь четко видит вход из localStorage
 if (orderTelegramBtn) {
     orderTelegramBtn.addEventListener('click', () => {
-        const loggedUser = sessionStorage.getItem('loggedUser');
+        const loggedUser = localStorage.getItem('loggedUser');
         
         if (loggedUser) {
-            // Если залогинен — перекидываем в твой ТГ (замени ссылку на свой юзернейм)
+            // Если залогинен — перекидываем в твой ТГ
             window.open('https://t.me', '_blank');
         } else {
             // Если гость — выкидываем кастомное требование регистрации
@@ -187,13 +188,13 @@ if (authForm) {
             } else {
                 usersDB[user] = pass;
                 localStorage.setItem('staticUsersDB', JSON.stringify(usersDB));
-                sessionStorage.setItem('loggedUser', user);
+                localStorage.setItem('loggedUser', user); // Сохраняем насовсем
                 showToast('Регистрация успешна!');
                 setTimeout(() => location.reload(), 1000);
             }
         } else {
             if (usersDB[user] && usersDB[user] === pass) {
-                sessionStorage.setItem('loggedUser', user);
+                localStorage.setItem('loggedUser', user); // Сохраняем насовсем
                 showToast('Успешный вход в аккаунт!');
                 setTimeout(() => location.reload(), 1000);
             } else {
