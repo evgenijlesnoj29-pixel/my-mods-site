@@ -149,7 +149,7 @@ if (orderTelegramBtn) {
         
         if (loggedUser) {
             // Если залогинен — перекидываем в твой ТГ
-            window.open('https://t.me', '_blank');
+            window.open('https://t.me/staryubog666', '_blank');
         } else {
             // Если гость — выкидываем кастомное требование регистрации
             showToast('Зарегистрируйтесь либо войдите в аккаунт, чтобы воспользоваться данной услугой');
