@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODS PRODUCTION</title>
-    <!-- Подключаем аккуратный ровный шрифт -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Golos+Text:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -14,13 +13,13 @@
 
     <div id="notification-container"></div>
 
-    <!-- Капсульная навигация сверху -->
+    <!-- Навигация (кнопки теперь плавно скроллят к блокам) -->
     <div class="navbar-container">
         <nav class="navbar">
             <div class="nav-links">
-                <button class="active" onclick="showPage('main', this)">Главная</button>
-                <button onclick="showPage('prices', this)">Цены</button>
-                <button onclick="showPage('reviews', this)">Отзывы</button>
+                <button class="nav-btn active" data-target="main">Главная</button>
+                <button class="nav-btn" data-target="prices">Цены</button>
+                <button class="nav-btn" data-target="reviews">Отзывы</button>
             </div>
             <div class="nav-right">
                 <div id="authSection">
@@ -32,8 +31,8 @@
 
     <div class="container">
         
-        <!-- СТРАНИЦА: ГЛАВНАЯ -->
-        <div id="page-main" class="page active">
+        <!-- СЕКЦИЯ: ГЛАВНАЯ -->
+        <section id="main" class="scroll-section">
             <h1>MODS PRODUCTION</h1>
             <p class="subtitle">Создание приватных модификаций и скриптов под твои идеи.</p>
             
@@ -54,13 +53,12 @@
             </div>
 
             <div class="glass-card full-width">
-                <h3>ПОДДЕРЖИВАЕМЫЕ ИГРЫ И СТЭК</h3>
+                <h3>ПОДДЕРЖИВАЕМЫЕ ПЛАТФОРМЫ</h3>
                 <div class="tags-container">
-                    <span class="game-tag">Minecraft (Forge / Fabric)</span>
-                    <span class="game-tag">GTA V (FiveM / AltV)</span>
-                    <span class="game-tag">Garry's Mod (Lua)</span>
-                    <span class="game-tag">S.T.A.L.K.E.R.</span>
-                    <span class="game-tag">Java / C# / C++</span>
+                    <span class="game-tag">Minecraft (Forge)</span>
+                    <span class="game-tag">Minecraft (Fabric)</span>
+                    <span class="game-tag">Minecraft (NeoForge)</span>
+                    <span class="game-tag">Java</span>
                 </div>
             </div>
 
@@ -68,10 +66,10 @@
                 <h3>КАК СДЕЛАТЬ ЗАКАЗ</h3>
                 <p style="line-height: 1.6;">Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь 50 ₽ и забираешь файл.</p>
             </div>
-        </div>
+        </section>
 
-        <!-- СТРАНИЦА: ЦЕНЫ -->
-        <div id="page-prices" class="page">
+        <!-- СЕКЦИЯ: ЦЕНЫ -->
+        <section id="prices" class="scroll-section">
             <h2>Цены на разработку</h2>
             <div class="capsule-card">
                 <div class="card-info">
@@ -83,14 +81,14 @@
             <div class="capsule-card">
                 <div class="card-info">
                     <h3>Исправление багов</h3>
-                    <p>Если я накосячил — исправляю полностью бесплатно.</p>
+                    <p>Если я накосячил — исправлю полностью бесплатно.</p>
                 </div>
                 <div class="price-value">0 ₽</div>
             </div>
-        </div>
+        </section>
 
-        <!-- СТРАНИЦА: ОТЗЫВЫ -->
-        <div id="page-reviews" class="page">
+        <!-- СЕКЦИЯ: ОТЗЫВЫ -->
+        <section id="reviews" class="scroll-section">
             <h2>Отзывы заказчиков</h2>
             
             <div class="review-form-block">
@@ -103,9 +101,9 @@
             </div>
 
             <div class="reviews-grid" id="reviewsContainer">
-                <!-- Отзывы -->
+                <!-- Отзывы вставляются из JS -->
             </div>
-        </div>
+        </section>
 
     </div>
 
