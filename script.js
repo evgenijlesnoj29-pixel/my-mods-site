@@ -1,15 +1,20 @@
+// ========================================================
+// 🛠️ ТВОЯ БАЗА ДАННЫХ (Сюда вручную вписывай новых юзеров)
+// ========================================================
+
 // 1. БАЗА ПОЛЬЗОВАТЕЛЕЙ (логин: пароль)
 let usersDB = JSON.parse(localStorage.getItem('staticUsersDB')) || {
     "admin": "12345",
     "client1": "qwerty"
 };
 
-// 2. БАЗА ОТЗЫВОВ КЛИЕНТОВ
+// 2. БАЗА ОТЗЫВОВ КЛИЕНТОВ (сохраняется в памяти браузера)
 let reviewsDB = JSON.parse(localStorage.getItem('staticReviewsDB')) || [
     { text: "Заказал мод, все работает шикарно. Сделал за пару часов, цена вообще копейки!", author: "Иван К." },
     { text: "Была ошибка в коде, автор исправил за пару минут бесплатно, как и обещал.", author: "Слава 01" }
 ];
 
+// Функция автоматического вывода отзывов на экран
 function renderReviews() {
     const reviewsContainer = document.getElementById('reviewsContainer');
     if (!reviewsContainer) return;
@@ -24,6 +29,7 @@ function renderReviews() {
 }
 renderReviews();
 
+// Кастомные аккуратные уведомления сверху
 function showToast(text) {
     const container = document.getElementById('notification-container');
     const toast = document.createElement('div');
@@ -37,6 +43,7 @@ function showToast(text) {
     }, 3000);
 }
 
+// Форма добавления нового отзыва (с лимитом 50 символов)
 const addReviewForm = document.getElementById('addReviewForm');
 if (addReviewForm) {
     addReviewForm.addEventListener('submit', (e) => {
@@ -64,15 +71,14 @@ if (addReviewForm) {
 const navButtons = document.querySelectorAll('.nav-btn');
 const sections = document.querySelectorAll('.scroll-section');
 
-// 1. Плавный скролл к нужной секции при клике на кнопку вверху
+// Плавный скролл к нужной секции при клике на кнопку вверху
 navButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const targetId = btn.getAttribute('data-target');
         const targetSection = document.getElementById(targetId);
         
         if (targetSection) {
-            // Вычисляем позицию с учетом отступа под верхнюю панель
-            const offsetTop = targetSection.offsetTop - 100;
+            const offsetTop = targetSection.offsetTop - 100; // Корректировка отступа под шапку
             window.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'
@@ -81,12 +87,12 @@ navButtons.forEach(btn => {
     });
 });
 
-// 2. Слежка за колесиком мыши: подсвечиваем нужную кнопку при листании страницы
+// Слежка за колесиком мыши: подсвечиваем нужную кнопку в капсуле навигации
 window.addEventListener('scroll', () => {
     let currentSectionId = '';
     
     sections.forEach(section => {
-        const sectionTop = section.offsetTop - 140; // Корректировка под шапку
+        const sectionTop = section.offsetTop - 140; 
         if (window.scrollY >= sectionTop) {
             currentSectionId = section.getAttribute('id');
         }
@@ -101,8 +107,25 @@ window.addEventListener('scroll', () => {
 });
 
 // ========================================================
+// 🌓 ПЕРЕКЛЮЧЕНИЕ МЯГКОЙ ТЁМНОЙ / СВЕТЛОЙ ТЕМЫ
+// ========================================================
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        // Если атрибута нет — мы на светлой теме, включаем тёмную
+        if (!document.documentElement.hasAttribute('data-theme')) {
+            document.documentElement.setAttribute('data-theme', 'light'); // В стилях под этим селектором лежит тёмная палитра
+            themeToggle.textContent = 'СВЕТЛАЯ';
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            themeToggle.textContent = 'ТЕМНАЯ';
+        }
+    });
+}
 
-// Переменные авторизации
+// ========================================================
+// 🔐 АВТОРИЗАЦИЯ И ЛОКАЛЬНАЯ ПАНЕЛЬ КЛИЕНТА
+// ========================================================
 const authModal = document.getElementById('authModal');
 const openAuthBtn = document.getElementById('openAuthBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
@@ -116,17 +139,21 @@ const clientGreeting = document.getElementById('clientGreeting');
 
 let authMode = 'login';
 
+// Проверка: вошел ли пользователь ранее?
 function checkUser() {
     const loggedUser = sessionStorage.getItem('loggedUser');
     if (loggedUser) {
-        authSection.innerHTML = `<button class="capsule-btn" id="logoutBtn">ВЫЙТИ</button>`;
+        if (authSection) authSection.innerHTML = `<button class="capsule-btn" id="logoutBtn">ВЫЙТИ</button>`;
         if (clientGreeting) clientGreeting.textContent = `Привет, ${loggedUser}! Рады видеть тебя снова.`;
         if (clientZone) clientZone.style.display = 'block';
         
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            sessionStorage.removeItem('loggedUser');
-            location.reload();
-        });
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                sessionStorage.removeItem('loggedUser');
+                location.reload();
+            });
+        }
     }
 }
 checkUser();
@@ -134,42 +161,48 @@ checkUser();
 if (openAuthBtn) openAuthBtn.addEventListener('click', () => authModal.style.display = 'flex');
 if (closeModalBtn) closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
-switchFormBtn.addEventListener('click', () => {
-    if (authMode === 'login') {
-        authMode = 'register';
-        modalTitle.textContent = 'РЕГИСТРАЦИЯ';
-        submitAuthBtn.textContent = 'ЗАРЕГИСТРИРОВАТЬСЯ';
-        switchFormBtn.textContent = 'Уже есть аккаунт? Войти';
-    } else {
-        authMode = 'login';
-        modalTitle.textContent = 'ВХОД В АККАУНТ';
-        submitAuthBtn.textContent = 'ВОЙТИ';
-        switchFormBtn.textContent = 'Нет аккаунта? Зарегистрироваться';
-    }
-});
-
-authForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const user = document.getElementById('username').value.trim();
-    const pass = document.getElementById('password').value;
-
-    if (authMode === 'register') {
-        if (usersDB[user]) {
-            showToast('Этот логин уже занят!');
+// Переключение режимов формы (Вход / Регистрация)
+if (switchFormBtn) {
+    switchFormBtn.addEventListener('click', () => {
+        if (authMode === 'login') {
+            authMode = 'register';
+            modalTitle.textContent = 'РЕГИСТРАЦИЯ';
+            submitAuthBtn.textContent = 'ЗАРЕГИСТРИРОВАТЬСЯ';
+            switchFormBtn.textContent = 'Уже есть аккаунт? Войти';
         } else {
-            usersDB[user] = pass;
-            localStorage.setItem('staticUsersDB', JSON.stringify(usersDB));
-            sessionStorage.setItem('loggedUser', user);
-            showToast('Регистрация успешна!');
-            setTimeout(() => location.reload(), 1000);
+            authMode = 'login';
+            modalTitle.textContent = 'ВХОД В АККАУНТ';
+            submitAuthBtn.textContent = 'ВОЙТИ';
+            switchFormBtn.textContent = 'Нет аккаунта? Зарегистрироваться';
         }
-    } else {
-        if (usersDB[user] && usersDB[user] === pass) {
-            sessionStorage.setItem('loggedUser', user);
-            showToast('Успешный вход в аккаунт!');
-            setTimeout(() => location.reload(), 1000);
+    });
+}
+
+// Обработка отправки данных формы в локальную БД
+if (authForm) {
+    authForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const user = document.getElementById('username').value.trim();
+        const pass = document.getElementById('password').value;
+
+        if (authMode === 'register') {
+            if (usersDB[user]) {
+                showToast('Этот логин уже занят!');
+            } else {
+                usersDB[user] = pass;
+                localStorage.setItem('staticUsersDB', JSON.stringify(usersDB));
+                sessionStorage.setItem('loggedUser', user);
+                showToast('Регистрация успешна!');
+                setTimeout(() => location.reload(), 1000);
+            }
         } else {
-            showToast('Неверный логин или пароль!');
+            if (usersDB[user] && usersDB[user] === pass) {
+                sessionStorage.setItem('loggedUser', user);
+                showToast('Успешный вход в аккаунт!');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast('Неверный логин или пароль!');
+            }
         }
-    }
-});
+    });
+}
