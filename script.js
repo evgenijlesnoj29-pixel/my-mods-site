@@ -79,12 +79,12 @@ function updateAdminCodeOutput() {
 // Настройка формы добавления модов
 const addModForm = document.getElementById('addModForm');
 if (addModForm) {
-    // Создаем окно вывода кода динамически под формой админка
+    // Создаем окно вывода кода динамически под формой админки
     const outputDiv = document.createElement('div');
     outputDiv.style.marginTop = '20px';
     outputDiv.innerHTML = `
-        <p style="font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; color: var(--blue-color);">📋 СКОПИРУЙ ЭТОТ КОД И ВСТАВЬ В MY_GLOBAL_MODS НА GITHUB:</p>
-        <textarea id="adminCodeOutput" readonly style="width: 100%; height: 120px; background: rgba(0,0,0,0.05); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; font-family: monospace; font-size: 0.8rem; resize: none; box-sizing: border-box; outline: none;"></textarea>
+        <p style="font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; color: var(--blue-color); text-align: left;">📋 СКОПИРУЙ ЭТОТ КОД И ВСТАВЬ В MY_GLOBAL_MODS НА GITHUB:</p>
+        <textarea id="adminCodeOutput" readonly style="width: 100%; height: 120px; background: rgba(0,0,0,0.05); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; font-family: monospace; font-size: 0.8rem; resize: none; box-sizing: border-box; outline: none; color: var(--text-main);"></textarea>
     `;
     addModForm.after(outputDiv);
 
@@ -105,7 +105,7 @@ if (addModForm) {
         addModForm.reset();
         renderShopItems();
         updateAdminCodeOutput();
-        showToast('Мод добавлен! Скопируй код снизу на GitHub.');
+        showToast('Мод успешно добавлен на сайт!');
     });
 }
 
@@ -242,8 +242,8 @@ const adminPanelBlock = document.getElementById('adminPanelBlock');
 let authMode = 'login';
 
 function checkUser() {
-    const loggedUser = localStorage.getItem('loggedUser');
-        if (loggedUser) {
+        const loggedUser = localStorage.getItem('loggedUser');
+    if (loggedUser) {
         if (authSection) authSection.innerHTML = `<button class="capsule-btn" id="logoutBtn">ВЫЙТИ</button>`;
         if (clientGreeting) clientGreeting.textContent = `Привет, ${loggedUser}! Рады видеть тебя снова.`;
         if (clientZone) clientZone.style.display = 'block';
