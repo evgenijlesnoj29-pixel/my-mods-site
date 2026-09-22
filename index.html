@@ -13,7 +13,7 @@
 
     <div id="notification-container"></div>
 
-    <!-- Навигация (кнопки плавно скроллят к блокам и сами переключаются) -->
+    <!-- Навигация -->
     <div class="navbar-container">
         <nav class="navbar">
             <div class="nav-links">
@@ -23,7 +23,7 @@
             </div>
             <div class="nav-right">
                 <div id="authSection">
-                    <button class="capsule-btn filled" id="openAuthBtn">Войти</button>
+                    <button class="capsule-btn blue-btn" id="openAuthBtn">Войти</button>
                 </div>
             </div>
         </nav>
@@ -68,14 +68,13 @@
             </div>
         </section>
 
-        <!-- СЕКЦИЯ: ЦЕНЫ (Цветные плашки из примера с точными версиями) -->
+        <!-- СЕКЦИЯ: ЦЕНЫ -->
         <section id="prices" class="scroll-section">
             <h2>Товары и тарифы</h2>
             <p style="color: var(--text-muted); margin-bottom: 30px;">Выберите нужный вариант для вашего проекта модификации.</p>
             
             <div class="products-grid">
                 
-                <!-- Фиолетовая плашка (Версии 1.21 - 1.21.11) -->
                 <div class="product-card purple">
                     <div class="product-header">
                         <span class="product-meta">ТАРИФ Версии 1.21 - 1.21.11</span>
@@ -85,7 +84,6 @@
                     <div class="product-price">1249 ₽</div>
                 </div>
 
-                <!-- Синяя плашка (Версии 1.12.2 - 1.20) -->
                 <div class="product-card blue">
                     <div class="product-header">
                         <span class="product-meta">ТАРИФ Версии 1.12.2 - 1.20</span>
@@ -95,7 +93,6 @@
                     <div class="product-price">799 ₽</div>
                 </div>
 
-                <!-- Зеленая плашка (Фиксы) -->
                 <div class="product-card green">
                     <div class="product-header">
                         <span class="product-meta">РАЗОВАЯ УСЛУГА</span>
@@ -117,16 +114,28 @@
                 <form id="addReviewForm">
                     <input type="text" id="reviewAuthor" placeholder="Твое имя" required>
                     <input type="text" id="reviewText" placeholder="Текст отзыва (макс. 50 символов)" required>
-                    <button type="submit" class="capsule-btn filled">Отправить</button>
+                    <button type="submit" class="capsule-btn blue-btn">Отправить</button>
                 </form>
             </div>
 
             <div class="reviews-grid" id="reviewsContainer">
-                <!-- Отзывы вставляются из script.js автоматически -->
+                <!-- Отзывы -->
             </div>
         </section>
 
     </div>
+
+    <!-- ПОДВАЛ (Политика конфиденциальности) -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2026 MODS PRODUCTION. Все права защищены.</p>
+            <p class="footer-links">
+                <a href="#" onclick="alert('Вы согласились со всеми правилами проекта!')">Политика конфиденциальности</a> | 
+                <a href="#" onclick="alert('Все данные обрабатываются в локальной базе данных.')">Пользовательское соглашение</a> | 
+                <a href="#" onclick="alert('Куда ты жмешь, тут все равно ничего нет :)')">Согласие на обработку персональных данных</a>
+            </p>
+        </div>
+    </footer>
 
     <!-- Модалка аккаунта -->
     <div class="modal" id="authModal">
@@ -136,7 +145,7 @@
             <form id="authForm">
                 <input type="text" id="username" placeholder="Логин" required>
                 <input type="password" id="password" placeholder="Пароль" required>
-                <button type="submit" class="capsule-btn filled" id="submitAuthBtn">ВОЙТИ</button>
+                <button type="submit" class="capsule-btn blue-btn" id="submitAuthBtn">ВОЙТИ</button>
             </form>
             <div class="switch-form" id="switchFormBtn">Нет аккаунта? Зарегистрироваться</div>
         </div>
