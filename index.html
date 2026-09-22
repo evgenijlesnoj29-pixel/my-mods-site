@@ -14,7 +14,7 @@
 
     <div id="notification-container"></div>
 
-    <!-- Навигация (Кнопка темы возвращена на место) -->
+    <!-- Навигация -->
     <div class="navbar-container">
         <nav class="navbar">
             <div class="nav-links">
@@ -25,7 +25,7 @@
             <div class="nav-right">
                 <button class="capsule-btn" id="themeToggle">ТЕМНАЯ</button>
                 <div id="authSection">
-                    <button class="capsule-btn blue-btn" id="openAuthBtn">Войти</button>
+                    <button class="capsule-btn filled" id="openAuthBtn">Войти</button>
                 </div>
             </div>
         </nav>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="glass-card">
                     <h4>ОПТИМИЗАЦИЯ</h4>
-                    <p>Код без лагов. Модификации не просадят FPS в игре.</p>
+                    <p>Код без лагов. Модификации не просадят FPS in игре.</p>
                 </div>
             </div>
 
@@ -66,11 +66,16 @@
 
             <div class="glass-card full-width">
                 <h3>КАК СДЕЛАТЬ ЗАКАЗ</h3>
-                <p style="line-height: 1.6;">Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь и забираешь готовый файл.</p>
+                <p style="line-height: 1.6; margin-bottom: 20px;">Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь и забираешь готовый файл.</p>
+                
+                <!-- Новая интерактивная плашка заказа (Связь с Telegram) -->
+                <div style="text-align: center; margin-top: 15px;">
+                    <button class="capsule-btn blue-btn" id="orderTelegramBtn" style="padding: 12px 30px; font-size: 0.9rem;">Оформить заказ через Telegram</button>
+                </div>
             </div>
         </section>
 
-        <!-- СЕКЦИЯ: ЦЕНЫ -->
+        <!-- СЕКЦИЯ: ЦЕНЫ (С твоими реальными ценами) -->
         <section id="prices" class="scroll-section">
             <h2>Товары и тарифы</h2>
             <p style="color: var(--text-muted); margin-bottom: 30px;">Выберите нужный вариант для вашего проекта модификации.</p>
@@ -84,7 +89,7 @@
                         <h3>Актуальные сборки</h3>
                     </div>
                     <p class="product-desc">Разработка модификаций под самые свежие версии игры с полной поддержкой современных библиотек и ядер.</p>
-                    <div class="product-price">1249 ₽</div>
+                    <div class="product-price">50 ₽</div>
                 </div>
 
                 <!-- Синяя плашка (Версии 1.12.2 - 1.20) -->
@@ -94,7 +99,7 @@
                         <h3>Классические сборки</h3>
                     </div>
                     <p class="product-desc">Разработка под популярные стабильные версии. Идеально для классических индустриальных, магических или RPG серверов.</p>
-                    <div class="product-price">799 ₽</div>
+                    <div class="product-price">50 ₽</div>
                 </div>
 
                 <!-- Зеленая плашка (Фиксы) -->
@@ -104,7 +109,7 @@
                         <h3>Фиксы и баги</h3>
                     </div>
                     <p class="product-desc">Быстрое исправление чужих ошибок, доработка стороннего кода или если я где-то накосячил.</p>
-                    <div class="product-price">50 ₽</div>
+                    <div class="product-price">0 ₽</div>
                 </div>
 
             </div>
@@ -124,7 +129,7 @@
             </div>
 
             <div class="reviews-grid" id="reviewsContainer">
-                <!-- Отзывы вставляются из script.js автоматически -->
+                <!-- Отзывы -->
             </div>
         </section>
 
