@@ -1,17 +1,8 @@
 // ========================================================
-// 🛒 БАЗА ГОТОВЫХ ТОВАРОВ МАГАЗИНА
+// 🛒 БАЗА ГОТОВЫХ ТОВАРОВ МАГАЗИНА (ИСПРАВЛЕНО: Тестовый мод убран)
 // ========================================================
-// Загружаем моды из памяти браузера (чтобы добавленные админом моды не пропадали после обновления страницы)
-let shopCatalogDB = JSON.parse(localStorage.getItem('adminShopCatalogDB')) || [
-    {
-        title: "Тестовый мод (Пример)",
-        version: "1.21 Forge",
-        desc: "Зайди под аккаунтом admin (пароль 12345), чтобы получить доступ к панели создания модов и наполнить магазин своими работами.",
-        price: "0 ₽",
-        color: "purple",
-        link: "https://t.me"
-    }
-];
+// Загружаем моды из памяти браузера, изначально массив пустой
+let shopCatalogDB = JSON.parse(localStorage.getItem('adminShopCatalogDB')) || [];
 
 // 🛠️ СТАНДАРТНАЯ БАЗА ПОЛЬЗОВАТЕЛЕЙ И ОТЗЫВОВ
 let usersDB = JSON.parse(localStorage.getItem('staticUsersDB')) || {
@@ -24,11 +15,17 @@ let reviewsDB = JSON.parse(localStorage.getItem('staticReviewsDB')) || [
     { text: "Была ошибка в коде, автор исправил за пару минут бесплатно, как и обещал.", author: "Слава 01" }
 ];
 
-// Функция рендеринга товаров магазина
+// Функция рендеринга товаров магазина (С проверкой: есть моды или нету)
 function renderShopItems(filterText = '') {
     const shopContainer = document.getElementById('shopItemsContainer');
     if (!shopContainer) return;
     shopContainer.innerHTML = '';
+
+    // Если модов вообще нет в базе
+    if (shopCatalogDB.length === 0) {
+        shopContainer.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 40px; font-size: 1.1rem; font-weight: 600;">Модов еще нету</p>`;
+        return;
+    }
 
     const filtered = shopCatalogDB.filter(item => 
         item.title.toLowerCase().includes(filterText.toLowerCase()) || 
@@ -127,7 +124,7 @@ function showToast(text) {
     }, 3000);
 }
 
-// Мгновенный запуск без задержек заставок
+// Мгновенный запуск
 window.addEventListener('DOMContentLoaded', () => {
     renderReviews();
     renderShopItems();
@@ -223,6 +220,8 @@ const clientGreeting = document.getElementById('clientGreeting');
 const orderTelegramBtn = document.getElementById('orderTelegramBtn');
 const adminPanelBlock = document.getElementById('adminPanelBlock');
 
+let authMode = 'login';
+
 function checkUser() {
     const loggedUser = localStorage.getItem('loggedUser');
     if (loggedUser) {
@@ -230,7 +229,6 @@ function checkUser() {
         if (clientGreeting) clientGreeting.textContent = `Привет, ${loggedUser}! Рады видеть тебя снова.`;
         if (clientZone) clientZone.style.display = 'block';
         
-        // ЕСЛИ ТЫ АДМИН — ОФИЦИАЛЬНО ОТКРЫВАЕМ ПАНЕЛЬ СОЗДАНИЯ МОДОВ
         if (loggedUser === 'admin' && adminPanelBlock) {
             adminPanelBlock.style.display = 'block';
         }
@@ -247,9 +245,9 @@ function checkUser() {
 checkUser();
 
 if (orderTelegramBtn) {
-        orderTelegramBtn.addEventListener('click', () => {
+    orderTelegramBtn.addEventListener('click', () => {
         const loggedUser = localStorage.getItem('loggedUser');
-        if (loggedUser) {
+                if (loggedUser) {
             window.open('https://t.me', '_blank');
         } else {
             showToast('Зарегистрируйтесь либо войдите в аккаунт, чтобы воспользоваться данной услугой');
@@ -275,4 +273,56 @@ if (switchFormBtn) {
         }
     });
 }
+
+if (authForm) {
+    authForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const user = document.getElementById('username').value.trim();
+        const pass = document.getElementById('password').value;
+
+        if (authMode === 'register') {
+            if (usersDB[user]) {
+                showToast('Этот логин уже занят!');
+            } else {
+                usersDB[user] = pass;
+                localStorage.setItem('staticUsersDB', JSON.stringify(usersDB));
+                localStorage.setItem('loggedUser', user);
+                showToast('Регистрация успешна!');
+                setTimeout(() => location.reload(), 1000);
+            }
+        } else {
+            if (usersDB[user] && usersDB[user] === pass) {
+                localStorage.setItem('loggedUser', user);
+                showToast('Успешный вход в аккаунт!');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast('Неверный логин или пароль!');
+            }
+        }
+    });
+}
+
+// Подвал
+const legalModal = document.getElementById('legalModal');
+const closeLegalBtn = document.getElementById('closeLegalBtn');
+const legalTitle = document.getElementById('legalTitle');
+const legalText = document.getElementById('legalText');
+
+const documents = {
+    privacy: { title: "Политика конфиденциальности", text: "Настоящая политика конфиденциальности регулирует сбор, хранение и использование персональных данных на проекте MODS PRODUCTION. Мы собираем только те данные, которые вы добровольно указываете при регистрации аккаунта (логин и пароль), а также при написании отзывов (имя). Эти данные хранятся локально в кэш-памяти вашего браузера и никогда не передаются третьим лицам. Мы не используем сторонние трекеры и файлы cookies для отслеживания вашей активности." },
+    terms: { title: "Пользовательское соглашение", text: "Регистрируясь на сайте MODS PRODUCTION, вы полностью соглашаетесь со следующими условиями: 1. Все модификации и скрипты создаются в развлекательных целях под индивидуальные технические задания заказчиков. 2. Оплата услуг производится фиксированно в размере 50 рублей после демонстрации видео-пруфа готовой работы. 3. Автор не несет ответственности за блокировки на игровых серверах, вызванные неправильным использованием приватных модификаций." },
+    data: { title: "Согласие на обработку персональных данных", text: "Нажимая кнопку 'Зарегистрироваться' или отправляя отзыв, вы даете полное согласие администрации MODS PRODUCTION на автоматизированную обработку введенных вами данных (логин, пароль, имя в отзыве). Обработка включает в себя запись, систематизацию и хранение данных в локальном хранилище (localStorage) вашего браузера. Вы можете в любой момент отозвать свое согласие, просто очистив кэш и куки вашего интернет-браузера." }
+};
+
+function openLegal(docKey) {
+    if (!legalModal || !documents[docKey]) return;
+    legalTitle.textContent = documents[docKey].title;
+    legalText.innerHTML = documents[docKey].text;
+    legalModal.style.display = 'flex';
+}
+
+document.getElementById('link-privacy')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('privacy'); });
+document.getElementById('link-terms')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('terms'); });
+document.getElementById('link-data')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('data'); });
+if (closeLegalBtn) closeLegalBtn.addEventListener('click', () => legalModal.style.display = 'none');
 
