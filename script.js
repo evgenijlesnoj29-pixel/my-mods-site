@@ -1,20 +1,15 @@
-// ========================================================
-// 🛠️ ТВОЯ БАЗА ДАННЫХ (Сюда вручную вписывай новых юзеров)
-// ========================================================
-
 // 1. БАЗА ПОЛЬЗОВАТЕЛЕЙ (логин: пароль)
 let usersDB = JSON.parse(localStorage.getItem('staticUsersDB')) || {
     "admin": "12345",
     "client1": "qwerty"
 };
 
-// 2. БАЗА ОТЗЫВОВ КЛИЕНТОВ (сохраняется в памяти браузера)
+// 2. БАЗА ОТЗЫВОВ КЛИЕНТОВ
 let reviewsDB = JSON.parse(localStorage.getItem('staticReviewsDB')) || [
     { text: "Заказал мод, все работает шикарно. Сделал за пару часов, цена вообще копейки!", author: "Иван К." },
     { text: "Была ошибка в коде, автор исправил за пару минут бесплатно, как и обещал.", author: "Слава 01" }
 ];
 
-// Функция автоматического вывода отзывов на экран
 function renderReviews() {
     const reviewsContainer = document.getElementById('reviewsContainer');
     if (!reviewsContainer) return;
@@ -29,7 +24,6 @@ function renderReviews() {
 }
 renderReviews();
 
-// Кастомные аккуратные уведомления сверху
 function showToast(text) {
     const container = document.getElementById('notification-container');
     const toast = document.createElement('div');
@@ -43,7 +37,6 @@ function showToast(text) {
     }, 3000);
 }
 
-// Форма добавления нового отзыва (с лимитом 50 символов)
 const addReviewForm = document.getElementById('addReviewForm');
 if (addReviewForm) {
     addReviewForm.addEventListener('submit', (e) => {
@@ -67,37 +60,28 @@ if (addReviewForm) {
 // ========================================================
 // 🔄 УМНЫЙ СКРОЛЛ И АВТО-ПЕРЕКЛЮЧЕНИЕ КНОПОК ПАНЕЛИ
 // ========================================================
-
 const navButtons = document.querySelectorAll('.nav-btn');
 const sections = document.querySelectorAll('.scroll-section');
 
-// Плавный скролл к нужной секции при клике на кнопку вверху
 navButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const targetId = btn.getAttribute('data-target');
         const targetSection = document.getElementById(targetId);
-        
         if (targetSection) {
-            const offsetTop = targetSection.offsetTop - 100; // Корректировка отступа под шапку
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
+            const offsetTop = targetSection.offsetTop - 100;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
         }
     });
 });
 
-// Слежка за колесиком мыши: подсвечиваем нужную кнопку в капсуле навигации
 window.addEventListener('scroll', () => {
     let currentSectionId = '';
-    
     sections.forEach(section => {
         const sectionTop = section.offsetTop - 140; 
         if (window.scrollY >= sectionTop) {
             currentSectionId = section.getAttribute('id');
         }
     });
-
     navButtons.forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-target') === currentSectionId) {
@@ -107,14 +91,13 @@ window.addEventListener('scroll', () => {
 });
 
 // ========================================================
-// 🌓 ПЕРЕКЛЮЧЕНИЕ МЯГКОЙ ТЁМНОЙ / СВЕТЛОЙ ТЕМЫ
+// 🌓 ПЕРЕКЛЮЧЕНИЕ ТЕМЫ
 // ========================================================
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {
     themeToggle.addEventListener('click', () => {
-        // Если атрибута нет — мы на светлой теме, включаем тёмную
         if (!document.documentElement.hasAttribute('data-theme')) {
-            document.documentElement.setAttribute('data-theme', 'light'); // В стилях под этим селектором лежит тёмная палитра
+            document.documentElement.setAttribute('data-theme', 'light');
             themeToggle.textContent = 'СВЕТЛАЯ';
         } else {
             document.documentElement.removeAttribute('data-theme');
@@ -124,7 +107,7 @@ if (themeToggle) {
 }
 
 // ========================================================
-// 🔐 АВТОРИЗАЦИЯ И ЛОКАЛЬНАЯ ПАНЕЛЬ КЛИЕНТА
+// 🔐 АВТОРИЗАЦИЯ И УМНАЯ КНОПКА ЗАКАЗА В TELEGRAM
 // ========================================================
 const authModal = document.getElementById('authModal');
 const openAuthBtn = document.getElementById('openAuthBtn');
@@ -136,10 +119,10 @@ const switchFormBtn = document.getElementById('switchFormBtn');
 const authSection = document.getElementById('authSection');
 const clientZone = document.getElementById('clientZone');
 const clientGreeting = document.getElementById('clientGreeting');
+const orderTelegramBtn = document.getElementById('orderTelegramBtn');
 
 let authMode = 'login';
 
-// Проверка: вошел ли пользователь ранее?
 function checkUser() {
     const loggedUser = sessionStorage.getItem('loggedUser');
     if (loggedUser) {
@@ -158,10 +141,24 @@ function checkUser() {
 }
 checkUser();
 
+// ЛОГИКА ДЛЯ ЗАКРЫТОЙ КНОПКИ ЗАКАЗА
+if (orderTelegramBtn) {
+    orderTelegramBtn.addEventListener('click', () => {
+        const loggedUser = sessionStorage.getItem('loggedUser');
+        
+        if (loggedUser) {
+            // Если залогинен — перекидываем в твой ТГ (замени ссылку на свой юзернейм)
+            window.open('https://t.me', '_blank');
+        } else {
+            // Если гость — выкидываем кастомное требование регистрации
+            showToast('Зарегистрируйтесь либо войдите в аккаунт, чтобы воспользоваться данной услугой');
+        }
+    });
+}
+
 if (openAuthBtn) openAuthBtn.addEventListener('click', () => authModal.style.display = 'flex');
 if (closeModalBtn) closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
-// Переключение режимов формы (Вход / Регистрация)
 if (switchFormBtn) {
     switchFormBtn.addEventListener('click', () => {
         if (authMode === 'login') {
@@ -178,7 +175,6 @@ if (switchFormBtn) {
     });
 }
 
-// Обработка отправки данных формы в локальную БД
 if (authForm) {
     authForm.addEventListener('submit', (e) => {
         e.preventDefault();
