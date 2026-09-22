@@ -1,8 +1,15 @@
-// Секретный облачный ключ для хранения модов в глобальной сети
-const GLOBAL_DB_URL = 'https://jsonbin.io';
-const API_KEY = '$2a$10$7Z2ZqVRE4eM/C0Y2L.7lEeX/uRjA.3yS.A2F/7G1vY.C2V3b4N5M6'; // Бесплатный ключ доступа
+// ========================================================
+// 🛒 ГЛОБАЛЬНАЯ БАЗА МОДОВ (Сюда будут автоматически добавляться твои моды)
+// ========================================================
+const MY_GLOBAL_MODS = [
+    // Когда скопируешь код из админки на сайте, просто замени всё, что внутри этих квадратных скобок [ ]
+];
 
-let shopCatalogDB = [];
+// Автоматически соединяем сохраненные моды с глобальными
+let shopCatalogDB = JSON.parse(localStorage.getItem('adminShopCatalogDB')) || [];
+if (shopCatalogDB.length === 0 && MY_GLOBAL_MODS.length > 0) {
+    shopCatalogDB = MY_GLOBAL_MODS;
+}
 
 // 🛠️ СТАНДАРТНАЯ БАЗА ПОЛЬЗОВАТЕЛЕЙ И ОТЗЫВОВ
 let usersDB = JSON.parse(localStorage.getItem('staticUsersDB')) || {
@@ -15,23 +22,7 @@ let reviewsDB = JSON.parse(localStorage.getItem('staticReviewsDB')) || [
     { text: "Была ошибка в коде, автор исправил за пару минут бесплатно, как и обещал.", author: "Слава 01" }
 ];
 
-// ГЛОБАЛЬНАЯ ЗАГРУЗКА: Качаем моды из облака, чтобы их видели ВСЕ люди
-async function fetchGlobalShopItems() {
-    try {
-        const response = await fetch(GLOBAL_DB_URL + '/latest', {
-            headers: { 'X-Master-Key': API_KEY }
-        });
-        const resData = await response.json();
-        shopCatalogDB = resData.record.mods || [];
-        renderShopItems();
-    } catch (error) {
-        console.error("Ошибка загрузки глобальной базы:", error);
-        shopCatalogDB = [];
-        renderShopItems();
-    }
-}
-
-// Функция рендеринга товаров магазина (Для всех юзеров)
+// Функция рендеринга товаров магазина
 function renderShopItems(filterText = '') {
     const shopContainer = document.getElementById('shopItemsContainer');
     if (!shopContainer) return;
@@ -77,20 +68,27 @@ function renderShopItems(filterText = '') {
     });
 }
 
-// Живой поиск
-const shopSearchInput = document.getElementById('shopSearchInput');
-if (shopSearchInput) {
-    shopSearchInput.addEventListener('input', (e) => {
-        renderShopItems(e.target.value);
-    });
+// Обновление текстового поля с кодом для админа
+function updateAdminCodeOutput() {
+    const codeOutput = document.getElementById('adminCodeOutput');
+    if (codeOutput) {
+        codeOutput.value = JSON.stringify(shopCatalogDB, null, 4);
+    }
 }
 
-// ========================================================
-// ⚙️ ЖИВАЯ АДМИНКА: Пушит данные в облако для ВСЕХ
-// ========================================================
+// Настройка формы добавления модов
 const addModForm = document.getElementById('addModForm');
 if (addModForm) {
-    addModForm.addEventListener('submit', async (e) => {
+    // Создаем окно вывода кода динамически под формой админка
+    const outputDiv = document.createElement('div');
+    outputDiv.style.marginTop = '20px';
+    outputDiv.innerHTML = `
+        <p style="font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; color: var(--blue-color);">📋 СКОПИРУЙ ЭТОТ КОД И ВСТАВЬ В MY_GLOBAL_MODS НА GITHUB:</p>
+        <textarea id="adminCodeOutput" readonly style="width: 100%; height: 120px; background: rgba(0,0,0,0.05); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; font-family: monospace; font-size: 0.8rem; resize: none; box-sizing: border-box; outline: none;"></textarea>
+    `;
+    addModForm.after(outputDiv);
+
+    addModForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         const title = document.getElementById('modTitle').value.trim();
@@ -100,27 +98,22 @@ if (addModForm) {
         const link = document.getElementById('modLink').value.trim();
         const color = document.getElementById('modColor').value;
 
-        // Временно добавляем на экран для скорости
         shopCatalogDB.unshift({ title, version, desc, price, color, link });
+        
+        localStorage.setItem('adminShopCatalogDB', JSON.stringify(shopCatalogDB));
+        
+        addModForm.reset();
         renderShopItems();
-        showToast('Отправка в глобальную сеть...');
+        updateAdminCodeOutput();
+        showToast('Мод добавлен! Скопируй код снизу на GitHub.');
+    });
+}
 
-        // Сохраняем массив модов в глобальное интернет-облако
-        try {
-            await fetch(GLOBAL_DB_URL, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Master-Key': API_KEY
-                },
-                body: JSON.stringify({ mods: shopCatalogDB })
-            });
-            addModForm.reset();
-            showToast('Мод успешно выложен для ВСЕХ!');
-        } catch (error) {
-            showToast('Ошибка сохранения в облако!');
-            console.error(error);
-        }
+// Живой поиск
+const shopSearchInput = document.getElementById('shopSearchInput');
+if (shopSearchInput) {
+    shopSearchInput.addEventListener('input', (e) => {
+        renderShopItems(e.target.value);
     });
 }
 
@@ -150,10 +143,10 @@ function showToast(text) {
     }, 3000);
 }
 
-// Запуск при старте сайта
 window.addEventListener('DOMContentLoaded', () => {
     renderReviews();
-    fetchGlobalShopItems(); // Сразу стягиваем моды из интернета
+    renderShopItems();
+    updateAdminCodeOutput();
 });
 
 const addReviewForm = document.getElementById('addReviewForm');
@@ -250,14 +243,14 @@ let authMode = 'login';
 
 function checkUser() {
     const loggedUser = localStorage.getItem('loggedUser');
-    if (loggedUser) {
-if (authSection) authSection.innerHTML = `<button class="capsule-btn" id="logoutBtn">ВЫЙТИ</button>`;
+        if (loggedUser) {
+        if (authSection) authSection.innerHTML = `<button class="capsule-btn" id="logoutBtn">ВЫЙТИ</button>`;
         if (clientGreeting) clientGreeting.textContent = `Привет, ${loggedUser}! Рады видеть тебя снова.`;
         if (clientZone) clientZone.style.display = 'block';
         
-        // ЕСЛИ ТЫ АДМИН — ОФИЦИАЛЬНО ОТКРЫВАЕМ ПАНЕЛЬ СОЗДАНИЯ МОДОВ
         if (loggedUser === 'admin' && adminPanelBlock) {
             adminPanelBlock.style.display = 'block';
+            updateAdminCodeOutput();
         }
 
         const logoutBtn = document.getElementById('logoutBtn');
@@ -329,7 +322,7 @@ if (authForm) {
     });
 }
 
-// Юридический подвал
+// Подвал
 const legalModal = document.getElementById('legalModal');
 const closeLegalBtn = document.getElementById('closeLegalBtn');
 const legalTitle = document.getElementById('legalTitle');
@@ -352,3 +345,4 @@ document.getElementById('link-privacy')?.addEventListener('click', (e) => { e.pr
 document.getElementById('link-terms')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('terms'); });
 document.getElementById('link-data')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('data'); });
 if (closeLegalBtn) closeLegalBtn.addEventListener('click', () => legalModal.style.display = 'none');
+
