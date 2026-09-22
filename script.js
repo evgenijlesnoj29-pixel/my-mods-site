@@ -4,28 +4,26 @@ let usersDB = JSON.parse(localStorage.getItem('staticUsersDB')) || {
     "client1": "qwerty"
 };
 
-// 2. БАЗА ОТЗЫВОВ КЛИЕНТОВ (грузится из localStorage или дефолтная)
+// 2. БАЗА ОТЗЫВОВ КЛИЕНТОВ
 let reviewsDB = JSON.parse(localStorage.getItem('staticReviewsDB')) || [
     { text: "Заказал мод, все работает шикарно. Сделал за пару часов, цена вообще копейки!", author: "Иван К." },
     { text: "Была ошибка в коде, автор исправил за пару минут бесплатно, как и обещал.", author: "Слава 01" }
 ];
 
-// Функция вывода отзывов на экран
 function renderReviews() {
     const reviewsContainer = document.getElementById('reviewsContainer');
     if (!reviewsContainer) return;
-    reviewsContainer.innerHTML = ''; // Очищаем старые
+    reviewsContainer.innerHTML = '';
     reviewsDB.forEach(rev => {
         reviewsContainer.innerHTML += `
             <div class="review-card">
-                <p style="margin:0; line-height:1.5; font-size:0.95rem;">«${rev.text}»</p>
+                <p style="margin:0; line-height:1.5; font-size:0.9rem;">«${rev.text}»</p>
                 <div style="font-weight:bold; color: var(--text-muted); margin-top:8px; font-size:0.85rem;">— ${rev.author}</div>
             </div>`;
     });
 }
 renderReviews();
 
-// Кастомные уведомления сверху
 function showToast(text) {
     const container = document.getElementById('notification-container');
     const toast = document.createElement('div');
@@ -39,7 +37,6 @@ function showToast(text) {
     }, 3000);
 }
 
-// Форма добавления нового отзыва (с лимитом 50 символов)
 const addReviewForm = document.getElementById('addReviewForm');
 if (addReviewForm) {
     addReviewForm.addEventListener('submit', (e) => {
@@ -52,37 +49,58 @@ if (addReviewForm) {
             return;
         }
 
-        // Добавляем отзыв в нашу базу
         reviewsDB.unshift({ text: textInput, author: authorInput });
         localStorage.setItem('staticReviewsDB', JSON.stringify(reviewsDB));
-        
-        // Сбрасываем поля формы и обновляем список отзывов
         addReviewForm.reset();
         renderReviews();
         showToast('Отзыв успешно добавлен!');
     });
 }
 
-// Переключение страниц (вкладок)
-function showPage(pageId, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
-    
-    document.getElementById('page-' + pageId).classList.add('active');
-    btn.classList.add('active');
-}
+// ========================================================
+// 🔄 УМНЫЙ СКРОЛЛ И АВТО-ПЕРЕКЛЮЧЕНИЕ КНОПОК ПАНЕЛИ
+// ========================================================
 
-// Переключение темной/светлой темы
-const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
-    if (document.documentElement.getAttribute('data-theme') === 'light') {
-        document.documentElement.removeAttribute('data-theme');
-        themeToggle.textContent = 'ТЕМНАЯ';
-    } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        themeToggle.textContent = 'СВЕТЛАЯ';
-    }
+const navButtons = document.querySelectorAll('.nav-btn');
+const sections = document.querySelectorAll('.scroll-section');
+
+// 1. Плавный скролл к нужной секции при клике на кнопку вверху
+navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const targetSection = document.getElementById(targetId);
+        
+        if (targetSection) {
+            // Вычисляем позицию с учетом отступа под верхнюю панель
+            const offsetTop = targetSection.offsetTop - 100;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
 });
+
+// 2. Слежка за колесиком мыши: подсвечиваем нужную кнопку при листании страницы
+window.addEventListener('scroll', () => {
+    let currentSectionId = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 140; // Корректировка под шапку
+        if (window.scrollY >= sectionTop) {
+            currentSectionId = section.getAttribute('id');
+        }
+    });
+
+    navButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-target') === currentSectionId) {
+            btn.classList.add('active');
+        }
+    });
+});
+
+// ========================================================
 
 // Переменные авторизации
 const authModal = document.getElementById('authModal');
