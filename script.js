@@ -1,10 +1,10 @@
-// 1. БАЗА ПОЛЬЗОВАТЕЛЕЙ (логин: пароль)
+// 1. БАЗА ПОЛЬЗОВАТЕЛЕЙ
 let usersDB = JSON.parse(localStorage.getItem('staticUsersDB')) || {
     "admin": "12345",
     "client1": "qwerty"
 };
 
-// 2. БАЗА ОТЗЫВОВ КЛИЕНТОВ
+// 2. БАЗА ОТЗЫВОВ
 let reviewsDB = JSON.parse(localStorage.getItem('staticReviewsDB')) || [
     { text: "Заказал мод, все работает шикарно. Сделал за пару часов, цена вообще копейки!", author: "Иван К." },
     { text: "Была ошибка в коде, автор исправил за пару минут бесплатно, как и обещал.", author: "Слава 01" }
@@ -16,13 +16,13 @@ function renderReviews() {
     reviewsContainer.innerHTML = '';
     reviewsDB.forEach(rev => {
         reviewsContainer.innerHTML += `
-            <div class="review-card">
+            <div class="review-card layout-animation">
                 <p style="margin:0; line-height:1.5; font-size:0.9rem;">«${rev.text}»</p>
                 <div style="font-weight:bold; color: var(--text-muted); margin-top:8px; font-size:0.85rem;">— ${rev.author}</div>
             </div>`;
     });
+    initScrollAnimation(); // Обновляем триггеры для новых отзывов
 }
-renderReviews();
 
 function showToast(text) {
     const container = document.getElementById('notification-container');
@@ -37,18 +37,45 @@ function showToast(text) {
     }, 3000);
 }
 
+// Таймер для заставки (исчезает через 2.5 секунды, уходя в цвет сайта)
+window.addEventListener('DOMContentLoaded', () => {
+    renderReviews();
+    setTimeout(() => {
+        const intro = document.getElementById('intro-screen');
+        if (intro) {
+            intro.style.opacity = '0';
+            setTimeout(() => {
+                intro.style.visibility = 'hidden';
+                initScrollAnimation(); // Запускаем проверку видимости плашек
+            }, 1000);
+        }
+    }, 2500);
+});
+
+// АНИМАЦИЯ ПОЯВЛЕНИЯ ПЛАШЕК ПРИ СКРОЛЛЕ
+function initScrollAnimation() {
+    const animItems = document.querySelectorAll('.layout-animation');
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+            }
+        });
+    }, { threshold: 0.05 });
+    animItems.forEach(item => scrollObserver.observe(item));
+}
+
+// Форма добавления отзыва
 const addReviewForm = document.getElementById('addReviewForm');
 if (addReviewForm) {
     addReviewForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const authorInput = document.getElementById('reviewAuthor').value.trim();
         const textInput = document.getElementById('reviewText').value.trim();
-
         if (textInput.length > 50) {
             showToast('Ошибка: Отзыв должен быть меньше 50 символов!');
             return;
         }
-
         reviewsDB.unshift({ text: textInput, author: authorInput });
         localStorage.setItem('staticReviewsDB', JSON.stringify(reviewsDB));
         addReviewForm.reset();
@@ -57,9 +84,7 @@ if (addReviewForm) {
     });
 }
 
-// ========================================================
-// 🔄 УМНЫЙ СКРОЛЛ И АВТО-ПЕРЕКЛЮЧЕНИЕ КНОПОК ПАНЕЛИ
-// ========================================================
+// Умный скролл и авто-переключение кнопок панели
 const navButtons = document.querySelectorAll('.nav-btn');
 const sections = document.querySelectorAll('.scroll-section');
 
@@ -78,21 +103,15 @@ window.addEventListener('scroll', () => {
     let currentSectionId = '';
     sections.forEach(section => {
         const sectionTop = section.offsetTop - 140; 
-        if (window.scrollY >= sectionTop) {
-            currentSectionId = section.getAttribute('id');
-        }
+        if (window.scrollY >= sectionTop) currentSectionId = section.getAttribute('id');
     });
     navButtons.forEach(btn => {
         btn.classList.remove('active');
-        if (btn.getAttribute('data-target') === currentSectionId) {
-            btn.classList.add('active');
-        }
+        if (btn.getAttribute('data-target') === currentSectionId) btn.classList.add('active');
     });
 });
 
-// ========================================================
-// 🌓 ПЕРЕКЛЮЧЕНИЕ ТЕМЫ
-// ========================================================
+// Переключение темы
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {
     themeToggle.addEventListener('click', () => {
@@ -106,9 +125,7 @@ if (themeToggle) {
     });
 }
 
-// ========================================================
-// 🔐 ИСПРАВЛЕННАЯ АВТОРИЗАЦИЯ И УМНАЯ КНОПКА ЗАКАЗА
-// ========================================================
+// Авторизация и кнопка заказа
 const authModal = document.getElementById('authModal');
 const openAuthBtn = document.getElementById('openAuthBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
@@ -123,7 +140,6 @@ const orderTelegramBtn = document.getElementById('orderTelegramBtn');
 
 let authMode = 'login';
 
-// ИСПРАВЛЕНО: Теперь проверяем постоянный вход через localStorage
 function checkUser() {
     const loggedUser = localStorage.getItem('loggedUser');
     if (loggedUser) {
@@ -134,7 +150,7 @@ function checkUser() {
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
-                localStorage.removeItem('loggedUser'); // Удаляем лог при выходе
+                localStorage.removeItem('loggedUser');
                 location.reload();
             });
         }
@@ -142,16 +158,12 @@ function checkUser() {
 }
 checkUser();
 
-// ИСПРАВЛЕНО: Кнопка теперь четко видит вход из localStorage
 if (orderTelegramBtn) {
     orderTelegramBtn.addEventListener('click', () => {
         const loggedUser = localStorage.getItem('loggedUser');
-        
         if (loggedUser) {
-            // Если залогинен — перекидываем в твой ТГ
-            window.open('https://t.me/staryubog666', '_blank');
+            window.open('https://t.me', '_blank');
         } else {
-            // Если гость — выкидываем кастомное требование регистрации
             showToast('Зарегистрируйтесь либо войдите в аккаунт, чтобы воспользоваться данной услугой');
         }
     });
@@ -188,13 +200,13 @@ if (authForm) {
             } else {
                 usersDB[user] = pass;
                 localStorage.setItem('staticUsersDB', JSON.stringify(usersDB));
-                localStorage.setItem('loggedUser', user); // Сохраняем насовсем
+                localStorage.setItem('loggedUser', user);
                 showToast('Регистрация успешна!');
                 setTimeout(() => location.reload(), 1000);
             }
         } else {
             if (usersDB[user] && usersDB[user] === pass) {
-                localStorage.setItem('loggedUser', user); // Сохраняем насовсем
+                localStorage.setItem('loggedUser', user);
                 showToast('Успешный вход в аккаунт!');
                 setTimeout(() => location.reload(), 1000);
             } else {
@@ -203,3 +215,38 @@ if (authForm) {
         }
     });
 }
+
+// ========================================================
+// ⚖️ ПОЛНОЦЕННЫЕ НАСТОЯЩИЕ ЮРИДИЧЕСКИЕ ТЕКСТЫ ДЛЯ ПОДВАЛА
+// ========================================================
+const legalModal = document.getElementById('legalModal');
+const closeLegalBtn = document.getElementById('closeLegalBtn');
+const legalTitle = document.getElementById('legalTitle');
+const legalText = document.getElementById('legalText');
+
+const documents = {
+    privacy: {
+        title: "Политика конфиденциальности",
+        text: "Настоящая политика конфиденциальности регулирует сбор, хранение и использование персональных данных на проекте MODS PRODUCTION. Мы собираем только те данные, которые вы добровольно указываете при регистрации аккаунта (логин и пароль), а также при написании отзывов (имя). Эти данные хранятся локально в кэш-памяти вашего браузера и никогда не передаются третьим лицам. Мы не используем сторонние трекеры и файлы cookies для отслеживания вашей активности."
+    },
+    terms: {
+        title: "Пользовательское соглашение",
+        text: "Регистрируясь на сайте MODS PRODUCTION, вы полностью соглашаетесь со следующими условиями: 1. Все модификации и скрипты создаются в развлекательных целях под индивидуальные технические задания заказчиков. 2. Оплата услуг производится фиксированно в размере 50 рублей после демонстрации видео-пруфа готовой работы. 3. Автор не несет ответственности за блокировки на игровых серверах, вызванные неправильным использованием приватных модификаций."
+    },
+    data: {
+        title: "Согласие на обработку персональных данных",
+ text: "Нажимая кнопку 'Зарегистрироваться' или отправляя отзыв, вы даете полное согласие администрации MODS PRODUCTION на автоматизированную обработку введенных вами данных (логин, пароль, имя в отзыве). Обработка включает в себя запись, систематизацию и хранение данных в локальном хранилище (localStorage) вашего браузера. Вы можете в любой момент отозвать свое согласие, просто очистив кэш и куки вашего интернет-браузера."
+    }
+};
+
+function openLegal(docKey) {
+    if (!legalModal || !documents[docKey]) return;
+    legalTitle.textContent = documents[docKey].title;
+    legalText.innerHTML = documents[docKey].text;
+    legalModal.style.display = 'flex';
+}
+
+document.getElementById('link-privacy')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('privacy'); });
+document.getElementById('link-terms')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('terms'); });
+document.getElementById('link-data')?.addEventListener('click', (e) => { e.preventDefault(); openLegal('data'); });
+if (closeLegalBtn) closeLegalBtn.addEventListener('click', () => legalModal.style.display = 'none');
