@@ -3,316 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MODS PRODUCTION | Главная</title>
-    <style>
-        /* Черно-белая палитра (Переменные) */
-        :root {
-            --bg-color: #000000;
-            --card-bg: #111111;
-            --border-color: #222222;
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --accent: #ffffff;
-            --accent-invert: #000000;
-        }
-
-        [data-theme="light"] {
-            --bg-color: #ffffff;
-            --card-bg: #f9f9f9;
-            --border-color: #e0e0e0;
-            --text-main: #000000;
-            --text-muted: #666666;
-            --accent: #000000;
-            --accent-invert: #ffffff;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0; padding: 0;
-            transition: background 0.3s, color 0.3s;
-            scroll-behavior: smooth;
-        }
-
-        /* Верхняя плашка навигации */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 40px;
-            z-index: 1000;
-            box-sizing: border-box;
-        }
-
-        .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 600;
-            margin-right: 25px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .nav-links a:hover { opacity: 0.7; }
-        .nav-right { display: flex; align-items: center; gap: 15px; }
-
-        .theme-btn, .auth-btn, .logout-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-        .auth-btn { background: var(--accent); color: var(--accent-invert); border: none; }
-
-        /* Анимация плавного появления при скролле */
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            visibility: hidden;
-        }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: none;
-            visibility: visible;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 120px auto 60px auto;
-            padding: 0 20px;
-        }
-
-        section { padding: 60px 0; border-bottom: 1px solid var(--border-color); }
-
-        h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: -1px; margin: 0; text-align: center; text-transform: uppercase;}
-        h2 { font-size: 2rem; font-weight: 800; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;}
-        p.subtitle { color: var(--text-muted); font-size: 1.2rem; text-align: center; margin-top: 10px; margin-bottom: 60px;}
-
-        /* Сетка цен */
-        .price-block {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .price-value { font-size: 1.6rem; font-weight: 900; }
-
-        /* Отзывы */
-        .reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .review-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            border-radius: 6px;
-        }
-        .review-author { font-weight: bold; color: var(--text-muted); font-size: 0.85rem; margin-top: 15px; text-transform: uppercase;}
-
-        /* Окно Входа */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 2000;
-            justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 40px; border-radius: 6px;
-            width: 100%; max-width: 320px;
-            position: relative; text-align: center;
-        }
-        .modal-content input {
-            width: 100%; padding: 12px; margin: 10px 0;
-            box-sizing: border-box; background: var(--bg-color);
-            border: 1px solid var(--border-color); color: var(--text-main);
-            border-radius: 4px;
-        }
-        .modal-content button {
-            width: 100%; padding: 12px; background: var(--accent);
-            color: var(--accent-invert); border: none;
-            font-weight: bold; border-radius: 4px; cursor: pointer; margin-top: 15px;
-        }
-        .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; color: var(--text-muted); font-size: 1.3rem; }
-        #userGreeting { font-weight: bold; margin-right: 10px; font-size: 0.9rem; }
-        
-        /* Секция для авторизованных клиентов */
-        #clientZone { display: none; background: var(--card-bg); border: 2px dashed var(--text-main); padding: 30px; border-radius: 6px; margin-top: 30px; text-align: center;}
-
-        @media (max-width: 768px) {
-            .navbar { padding: 15px 20px; }
-            .nav-links { display: none; }
-            .reviews-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    <title>MODS PRODUCTION</title>
+    <!-- Подключаем наш файл со стилями -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Шапка со вкладками -->
-    <nav class="navbar">
-        <div class="nav-links">
-            <a href="#main">Главная</a>
-            <a href="#prices">Цены</a>
-            <a href="#reviews">Отзывы</a>
-        </div>
-        <div class="nav-right">
-            <button class="theme-btn" id="themeToggle">ТЕМА: ТЕМНАЯ</button>
-            <div id="authSection">
-                <button class="auth-btn" id="openAuthBtn">ВОЙТИ</button>
+    <!-- Анимированные фоновые круги -->
+    <div class="bg-animation">
+        <div class="circle c1"></div>
+        <div class="circle c2"></div>
+        <div class="circle c3"></div>
+    </div>
+
+    <!-- Контейнер для кастомных уведомлений сверху -->
+    <div id="notification-container"></div>
+
+    <!-- Капсульная навигация -->
+    <div class="navbar-container">
+        <nav class="navbar">
+            <div class="nav-links">
+                <button class="active" onclick="showPage('main', this)">Главная</button>
+                <button onclick="showPage('prices', this)">Цены</button>
+                <button onclick="showPage('reviews', this)">Отзывы</button>
             </div>
-        </div>
-    </nav>
+            <div class="nav-right">
+                <button class="capsule-btn" id="themeToggle">ТЕМНАЯ</button>
+                <div id="authSection">
+                    <button class="capsule-btn filled" id="openAuthBtn">ВОЙТИ</button>
+                </div>
+            </div>
+        </nav>
+    </div>
 
     <div class="container">
         
-        <!-- Главная -->
-        <section id="main">
+        <!-- СТРАНИЦА: ГЛАВНАЯ -->
+        <div id="page-main" class="page active">
             <h1>MODS PRODUCTION</h1>
-            <p class="subtitle">Разработка персональных модификаций под твои задачи.</p>
+            <p class="subtitle">Создание модов на заказ под твои идеи.</p>
             
-            <!-- Закрытая зона, которая покажется только после успешного входа -->
-            <div id="clientZone">
-                <h3 style="margin-top:0; color: #00ff66;">🔓 ПАНЕЛЬ КЛИЕНТА АКТИВИРОВАНА</h3>
-                <p>Здесь твои купленные моды и статус заказов. Спасибо за сотрудничество!</p>
+            <div id="clientZone" style="display: none;">
+                <h3 style="margin:0; color: #00ff66;">🔓 ДОСТУП В ПАНЕЛЬ ОТКРЫТ</h3>
+                <p style="margin: 5px 0 0 0;" id="clientGreeting"></p>
             </div>
-        </section>
 
-        <!-- Цены -->
-        <section id="prices" class="fade-in-section">
-            <h2>Цены</h2>
-            <div class="price-block">
+            <div class="features-grid">
+                <div class="feature-box">
+                    <h4>⚡ СКОРОСТЬ</h4>
+                    <p>Скрипты за пару часов. Крупные моды — от 1 дня.</p>
+                </div>
+                <div class="feature-box">
+                    <h4>🛠️ ОПТИМИЗАЦИЯ</h4>
+                    <p>Код без лагов. Моды не просадят FPS в игре.</p>
+                </div>
+            </div>
+
+            <div class="feature-box" style="margin-top: 20px;">
+                <h3>КАК СДЕЛАТЬ ЗАКАЗ</h3>
+                <p style="line-height: 1.6; margin: 0;">Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь 50 ₽ и забираешь файл.</p>
+            </div>
+        </div>
+
+        <!-- СТРАНИЦА: ЦЕНЫ -->
+        <div id="page-prices" class="page">
+            <h2>Цены на разработку</h2>
+            <div class="capsule-card">
                 <div>
                     <h3 style="margin:0;">Создание мода под ключ</h3>
-                    <p style="color: var(--text-muted); margin: 5px 0 0 0;">Напишу качественный мод по твоему ТЗ.</p>
+                    <p style="margin: 5px 0 0 0;">Сборка механик по твоему детальному ТЗ.</p>
                 </div>
                 <div class="price-value">50 ₽</div>
             </div>
-            <div class="price-block">
+            <div class="capsule-card">
                 <div>
                     <h3 style="margin:0;">Исправление багов</h3>
-                    <p style="color: var(--text-muted); margin: 5px 0 0 0;">Если я где-то накосячил — исправлю полностью бесплатно.</p>
+                    <p style="margin: 5px 0 0 0;">Если я накосячил — исправляю полностью бесплатно.</p>
                 </div>
                 <div class="price-value">0 ₽</div>
             </div>
-        </section>
+        </div>
 
-        <!-- Отзывы -->
-        <section id="reviews" class="fade-in-section">
-            <h2>Отзывы</h2>
-            <div id="reviewsContainer" class="reviews-grid">
-                <!-- Отзывы загрузятся из кода автоматически -->
+        <!-- СТРАНИЦА: ОТЗЫВЫ -->
+        <div id="page-reviews" class="page">
+            <h2>Отзывы заказчиков</h2>
+            <div class="reviews-grid" id="reviewsContainer">
+                <!-- Отзывы подгрузятся из script.js автоматически -->
             </div>
-        </section>
+        </div>
 
     </div>
 
-    <!-- Модалка Входа -->
+    <!-- Модалка аккаунта -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <span class="close-btn" id="closeModalBtn">&times;</span>
-            <h3>ВХОД В АККАУНТ</h3>
+            <h3 id="modalTitle">ВХОД В АККАУНТ</h3>
             <form id="authForm">
                 <input type="text" id="username" placeholder="Логин" required>
                 <input type="password" id="password" placeholder="Пароль" required>
-                <button type="submit">ЗАЙТИ</button>
+                <button type="submit" class="capsule-btn filled" id="submitAuthBtn">ВОЙТИ</button>
             </form>
+            <div class="switch-form" id="switchFormBtn">Нет аккаунта? Зарегистрироваться</div>
         </div>
     </div>
 
-    <script>
-        // ==========================================
-        // 🛠️ ТВОЯ БАЗА ДАННЫХ ПРЯМО В КОДЕ
-        // ==========================================
-        
-        // БАЗА ПОЛЬЗОВАТЕЛЕЙ (Сюда вручную вписывай логины и пароли своих покупателей)
-        const usersDB = {
-            "admin": "12345",       // логин: пароль
-            "client1": "qwerty",
-            "testuser": "password"
-        };
-
-        // БАЗА ОТЗЫВОВ (Сюда вручную вписывай новые отзывы клиентов)
-        const reviewsDB = [
-            { text: "Заказал мод, все работает шикарно. Сделал за пару часов, цена вообще копейки!", author: "Иван К." },
-            { text: "Была небольшая ошибка в коде, автор исправил за 5 минут абсолютно бесплатно, как и обещал. Респект.", author: "Слава 01" }
-        ];
-
-        // ==========================================
-
-        // Рендеринг отзывов из нашей базы данных в коде
-        const reviewsContainer = document.getElementById('reviewsContainer');
-        reviewsDB.forEach(rev => {
-            reviewsContainer.innerHTML += `
-                <div class="review-card">
-                    <p style="margin:0; line-height:1.6;">«${rev.text}»</p>
-                    <div class="review-author">— ${rev.author}</div>
-                </div>`;
-        });
-
-        // Плавное появление при скролле
-                const sections = document.querySelectorAll('.fade-in-section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('is-visible');
-            });
-        }, { threshold: 0.1 });
-        sections.forEach(section => observer.observe(section));
-
-        // Переключение темной/светлой темы
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            if (document.documentElement.getAttribute('data-theme') === 'light') {
-                document.documentElement.removeAttribute('data-theme');
-                themeToggle.textContent = 'ТЕМА: ТЕМНАЯ';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                themeToggle.textContent = 'ТЕМА: СВЕТЛАЯ';
-            }
-        });
-
-        // Логика авторизации по базе данных из кода
-        const authModal = document.getElementById('authModal');
-        const openAuthBtn = document.getElementById('openAuthBtn');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const authForm = document.getElementById('authForm');
-        const authSection = document.getElementById('authSection');
-        const clientZone = document.getElementById('clientZone');
-
-        openAuthBtn.addEventListener('click', () => authModal.style.display = 'flex');
-        closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
-
-        authForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value;
-
-            // Проверка по нашей базе данных в коде
-            if (usersDB[user] && usersDB[user] === pass) {
-                authModal.style.display = 'none';
-                authSection.innerHTML = `<span id="userGreeting">Привет, ${user}!</span><button class="logout-btn" onclick="location.reload()">ВЫЙТИ</button>`;
-                clientZone.style.display = 'block'; // Показываем секретную зону клиента
-                alert('Успешный вход по базе данных!');
-            } else {
-                alert('Неверный логин или пароль! Такого пользователя нет в базе.');
-            }
-        });
-    </script>
+    <!-- Подключаем наш файл с логикой -->
+    <script src="script.js"></script>
 </body>
 </html>
-
