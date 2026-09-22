@@ -1,34 +1,31 @@
-// ========================================================
-// 🛠️ ТВОЯ БАЗА ДАННЫХ (Сюда вручную вписывай новых юзеров и отзывы)
-// ========================================================
-
 // 1. БАЗА ПОЛЬЗОВАТЕЛЕЙ (логин: пароль)
 let usersDB = JSON.parse(localStorage.getItem('staticUsersDB')) || {
     "admin": "12345",
     "client1": "qwerty"
 };
 
-// 2. БАЗА ОТЗЫВОВ КЛИЕНТОВ
-const reviewsDB = [
+// 2. БАЗА ОТЗЫВОВ КЛИЕНТОВ (грузится из localStorage или дефолтная)
+let reviewsDB = JSON.parse(localStorage.getItem('staticReviewsDB')) || [
     { text: "Заказал мод, все работает шикарно. Сделал за пару часов, цена вообще копейки!", author: "Иван К." },
     { text: "Была ошибка в коде, автор исправил за пару минут бесплатно, как и обещал.", author: "Слава 01" }
 ];
 
-// ========================================================
-
-// Автоматический рендеринг отзывов на страницу из нашей базы
-const reviewsContainer = document.getElementById('reviewsContainer');
-if (reviewsContainer) {
+// Функция вывода отзывов на экран
+function renderReviews() {
+    const reviewsContainer = document.getElementById('reviewsContainer');
+    if (!reviewsContainer) return;
+    reviewsContainer.innerHTML = ''; // Очищаем старые
     reviewsDB.forEach(rev => {
         reviewsContainer.innerHTML += `
             <div class="review-card">
-                <p style="margin:0; line-height:1.6;">«${rev.text}»</p>
-                <div style="font-weight:bold; color: var(--text-muted); margin-top:10px;">— ${rev.author}</div>
+                <p style="margin:0; line-height:1.5; font-size:0.95rem;">«${rev.text}»</p>
+                <div style="font-weight:bold; color: var(--text-muted); margin-top:8px; font-size:0.85rem;">— ${rev.author}</div>
             </div>`;
     });
 }
+renderReviews();
 
-// Кастомные аккуратные уведомления сверху
+// Кастомные уведомления сверху
 function showToast(text) {
     const container = document.getElementById('notification-container');
     const toast = document.createElement('div');
@@ -40,6 +37,30 @@ function showToast(text) {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
     }, 3000);
+}
+
+// Форма добавления нового отзыва (с лимитом 50 символов)
+const addReviewForm = document.getElementById('addReviewForm');
+if (addReviewForm) {
+    addReviewForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const authorInput = document.getElementById('reviewAuthor').value.trim();
+        const textInput = document.getElementById('reviewText').value.trim();
+
+        if (textInput.length > 50) {
+            showToast('Ошибка: Отзыв должен быть меньше 50 символов!');
+            return;
+        }
+
+        // Добавляем отзыв в нашу базу
+        reviewsDB.unshift({ text: textInput, author: authorInput });
+        localStorage.setItem('staticReviewsDB', JSON.stringify(reviewsDB));
+        
+        // Сбрасываем поля формы и обновляем список отзывов
+        addReviewForm.reset();
+        renderReviews();
+        showToast('Отзыв успешно добавлен!');
+    });
 }
 
 // Переключение страниц (вкладок)
@@ -63,7 +84,7 @@ themeToggle.addEventListener('click', () => {
     }
 });
 
-// Переменные для формы авторизации
+// Переменные авторизации
 const authModal = document.getElementById('authModal');
 const openAuthBtn = document.getElementById('openAuthBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
@@ -77,7 +98,6 @@ const clientGreeting = document.getElementById('clientGreeting');
 
 let authMode = 'login';
 
-// Проверка: залогинен ли уже пользователь?
 function checkUser() {
     const loggedUser = sessionStorage.getItem('loggedUser');
     if (loggedUser) {
@@ -96,7 +116,6 @@ checkUser();
 if (openAuthBtn) openAuthBtn.addEventListener('click', () => authModal.style.display = 'flex');
 if (closeModalBtn) closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
-// Переключение режимов формы (Вход / Регистрация)
 switchFormBtn.addEventListener('click', () => {
     if (authMode === 'login') {
         authMode = 'register';
@@ -111,7 +130,6 @@ switchFormBtn.addEventListener('click', () => {
     }
 });
 
-// Обработка отправки данных формы
 authForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const user = document.getElementById('username').value.trim();
