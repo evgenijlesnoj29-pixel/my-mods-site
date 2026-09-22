@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODS PRODUCTION</title>
+    <!-- Подключаем аккуратный ровный шрифт -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Golos+Text:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Контейнер для кастомных уведомлений сверху -->
     <div id="notification-container"></div>
 
-    <!-- Капсульная навигация -->
+    <!-- Капсульная навигация сверху -->
     <div class="navbar-container">
         <nav class="navbar">
             <div class="nav-links">
@@ -20,9 +23,8 @@
                 <button onclick="showPage('reviews', this)">Отзывы</button>
             </div>
             <div class="nav-right">
-                <button class="capsule-btn" id="themeToggle">ТЕМНАЯ</button>
                 <div id="authSection">
-                    <button class="capsule-btn filled" id="openAuthBtn">ВОЙТИ</button>
+                    <button class="capsule-btn filled" id="openAuthBtn">Войти</button>
                 </div>
             </div>
         </nav>
@@ -32,28 +34,25 @@
         
         <!-- СТРАНИЦА: ГЛАВНАЯ -->
         <div id="page-main" class="page active">
-            <div class="hero-section">
-                <h1>MODS PRODUCTION</h1>
-                <p class="subtitle">Приватная разработка скриптов и модификаций под твои задачи.</p>
-            </div>
+            <h1>MODS PRODUCTION</h1>
+            <p class="subtitle">Создание приватных модификаций и скриптов под твои идеи.</p>
             
-            <div id="clientZone" class="glass-card" style="display: none; border-color: #ffffff; text-align: center; margin-bottom: 25px;">
-                <h3 style="margin:0;">ДОСТУП В ПАНЕЛЬ ОТКРЫТ</h3>
-                <p id="clientGreeting" style="margin: 10px 0 0 0;"></p>
+            <div id="clientZone" class="glass-card" style="display: none; text-align: center;">
+                <h3>ДОСТУП В ПАНЕЛЬ ОТКРЫТ</h3>
+                <p id="clientGreeting"></p>
             </div>
 
             <div class="features-grid">
                 <div class="glass-card">
                     <h4>СКОРОСТЬ</h4>
-                    <p>Простые скрипты и фиксы собираю за пару часов. Крупные и сложные проекты — от 1 дня.</p>
+                    <p>Скрипты за пару часов. Крупные моды — от 1 дня.</p>
                 </div>
                 <div class="glass-card">
                     <h4>ОПТИМИЗАЦИЯ</h4>
-                    <p>Пишу чистый код без мусора. Модификации не нагружают систему и не просаживают FPS.</p>
+                    <p>Код без лагов. Модификации не просадят FPS в игре.</p>
                 </div>
             </div>
 
-            <!-- НОВЫЙ БЛОК: СТАК И ИГРЫ -->
             <div class="glass-card full-width">
                 <h3>ПОДДЕРЖИВАЕМЫЕ ИГРЫ И СТЭК</h3>
                 <div class="tags-container">
@@ -66,43 +65,25 @@
             </div>
 
             <div class="glass-card full-width">
-                <h3>ПРОЦЕСС РАБОТЫ И ЗАКАЗА</h3>
-                <div class="steps-list">
-                    <div class="step-item"><span>1</span> Напиши мне по контактам, подробно опиши идею или скинь готовое ТЗ.</div>
-                    <div class="step-item"><span>2</span> Мы обсуждаем детали проекта, и я утверждаю фиксированную цену в 50 ₽.</div>
-                    <div class="step-item"><span>3</span> Я пишу код, полностью тестирую его и скидываю тебе видео-доказательство работы.</div>
-                    <div class="step-item"><span>4</span> После подтверждения ты переводишь оплату, а я отдаю чистый файл мода.</div>
-                </div>
-            </div>
-
-            <!-- НОВЫЙ БЛОК: МОНИТОРИНГ ЗАКАЗОВ -->
-            <div class="glass-card full-width">
-                <h3>МОНИТОРИНГ ТЕКУЩИХ ЗАКАЗОВ</h3>
-                <div class="status-row">
-                    <span>Заказ #114 (Скрипт Lua)</span>
-                    <span class="status-badge progress">В РАБОТЕ (85%)</span>
-                </div>
-                <div class="status-row">
-                    <span>Заказ #113 (Мод Forge 1.20)</span>
-                    <span class="status-badge ready">ГОТОВ / СДАН</span>
-                </div>
+                <h3>КАК СДЕЛАТЬ ЗАКАЗ</h3>
+                <p style="line-height: 1.6;">Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь 50 ₽ и забираешь файл.</p>
             </div>
         </div>
 
         <!-- СТРАНИЦА: ЦЕНЫ -->
         <div id="page-prices" class="page">
-            <h2>Прайс-лист</h2>
+            <h2>Цены на разработку</h2>
             <div class="capsule-card">
                 <div class="card-info">
                     <h3>Создание мода под ключ</h3>
-                    <p>Проработка логики, механик и сборка по твоему детальному описанию.</p>
+                    <p>Сборка механик по твоему детальному ТЗ.</p>
                 </div>
                 <div class="price-value">50 ₽</div>
             </div>
             <div class="capsule-card">
                 <div class="card-info">
                     <h3>Исправление багов</h3>
-                    <p>Если в ходе тестов или работы вылез мой косяк — исправлю полностью бесплатно.</p>
+                    <p>Если я накосячил — исправляю полностью бесплатно.</p>
                 </div>
                 <div class="price-value">0 ₽</div>
             </div>
@@ -110,19 +91,19 @@
 
         <!-- СТРАНИЦА: ОТЗЫВЫ -->
         <div id="page-reviews" class="page">
-            <h2>Отзывы клиентов</h2>
+            <h2>Отзывы заказчиков</h2>
             
             <div class="review-form-block">
                 <h3>Оставить отзыв</h3>
                 <form id="addReviewForm">
                     <input type="text" id="reviewAuthor" placeholder="Твое имя" required>
                     <input type="text" id="reviewText" placeholder="Текст отзыва (макс. 50 символов)" required>
-                    <button type="submit" class="capsule-btn filled">Отправить отзыв</button>
+                    <button type="submit" class="capsule-btn filled">Отправить</button>
                 </form>
             </div>
 
             <div class="reviews-grid" id="reviewsContainer">
-                <!-- Сюда инфа прилетит из скрипта -->
+                <!-- Отзывы -->
             </div>
         </div>
 
