@@ -1,23 +1,24 @@
-/* Строгий темный дизайн */
+/* Светлая тема по умолчанию Apple-style */
 :root {
-    --bg-color: #0b0c10;
-    --card-bg: rgba(22, 24, 33, 0.7); 
-    --border-color: rgba(255, 255, 255, 0.08);
-    --text-main: #ffffff;
-    --text-muted: #8e8e93;
-    --accent: #ffffff;
-    --accent-invert: #000000;
-    --card-hover-border: rgba(255, 255, 255, 0.25);
+    --bg-color: #f3f4f6;
+    --card-bg: rgba(255, 255, 255, 0.8); 
+    --border-color: rgba(0, 0, 0, 0.08); 
+    --text-main: #111111;
+    --text-muted: #6b7280;
+    --accent: #111111;
+    --accent-invert: #ffffff;
+    --card-hover-border: rgba(0, 0, 0, 0.25);
 }
 
 body {
     font-family: 'Golos Text', -apple-system, sans-serif;
     background-color: var(--bg-color);
-    background-image: radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+    background-image: radial-gradient(circle at 50% -10%, rgba(0, 0, 0, 0.01) 0%, transparent 40%);
     color: var(--text-main);
     margin: 0; padding: 0;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth; /* Плавный скролл при нажатии на кнопки */
 }
 
 /* Компактный навигатор сверху */
@@ -32,7 +33,7 @@ body {
     -webkit-backdrop-filter: blur(20px);
     display: flex; justify-content: space-between; align-items: center;
     padding: 8px 16px; width: 100%; max-width: 750px; border-radius: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 .nav-links { display: flex; gap: 2px; }
 .nav-links button {
@@ -42,12 +43,12 @@ body {
     transition: all 0.2s ease;
 }
 .nav-links button:hover { color: var(--text-main); }
-.nav-links button.active { background: rgba(255, 255, 255, 0.08); color: var(--text-main); }
+.nav-links button.active { background: rgba(0, 0, 0, 0.06); color: var(--text-main); }
 .nav-right { display: flex; align-items: center; }
 
 /* Капсульные кнопки */
 .capsule-btn {
-    background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.03); border: 1px solid var(--border-color);
     color: var(--text-main); padding: 8px 18px; border-radius: 30px;
     cursor: pointer; font-weight: 600; font-size: 0.8rem;
     transition: all 0.2s ease;
@@ -55,26 +56,22 @@ body {
 .capsule-btn.filled { background: var(--accent); color: var(--accent-invert); border: none; }
 .capsule-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 /* Главный контейнер */
 .container { max-width: 750px; margin: 130px auto 60px auto; padding: 0 20px; box-sizing: border-box; }
 
-/* Плавная анимация переключения страниц */
-.page { display: none; }
-.page.active { 
-    display: block; 
-    animation: smoothAppear 0.4s ease forwards; 
-}
-@keyframes smoothAppear {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Секции для скролла */
+.scroll-section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 /* Аккуратные заголовки */
 h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; text-align: center; }
-h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
+h2 { font-size: 1.6rem; font-weight: 700; margin-top: 40px; margin-bottom: 25px; text-transform: uppercase; border-top: 1px solid var(--border-color); padding-top: 40px; }
 .subtitle { color: var(--text-muted); text-align: center; margin-top: 8px; margin-bottom: 40px; font-size: 1rem; }
 
 /* Капсульные стеклянные карточки */
@@ -85,7 +82,7 @@ h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 25px; text-transform: u
     -webkit-backdrop-filter: blur(16px);
     padding: 24px 28px; border-radius: 16px; margin-bottom: 16px;
     box-sizing: border-box;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.4);
     transition: transform 0.25s ease, border-color 0.25s ease;
 }
 .glass-card:hover, .capsule-card:hover, .review-card:hover {
@@ -104,7 +101,7 @@ h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 25px; text-transform: u
 /* Тэги стэка */
 .tags-container { display: flex; flex-wrap: wrap; gap: 8px; }
 .game-tag {
-    background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.03); border: 1px solid var(--border-color);
     padding: 6px 14px; border-radius: 30px; font-size: 0.8rem; font-weight: 600;
 }
 
@@ -119,22 +116,23 @@ h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 25px; text-transform: u
 .review-form-block h3 { margin: 0 0 15px 0; font-size: 1.05rem; text-transform: uppercase; }
 .review-form-block form { display: flex; flex-direction: column; gap: 10px; }
 .review-form-block input {
-    padding: 12px 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color);
+    padding: 12px 20px; background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color);
     color: var(--text-main); border-radius: 30px; outline: none; font-size: 0.9rem; font-family: inherit;
 }
 
 /* Модалка */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center;
+    background: rgba(0, 0, 0, 0.4); z-index: 2000; justify-content: center; align-items: center;
 }
 .modal-content {
-    background: #0f1015; border: 1px solid var(--border-color);
+    background: #ffffff; border: 1px solid var(--border-color);
     padding: 35px; border-radius: 20px; width: 100%; max-width: 270px; position: relative; text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 .modal-content input {
     width: 100%; padding: 12px 20px; margin: 8px 0; box-sizing: border-box;
-    background: rgba(0,0,0,0.2); border: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.02); border: 1px solid var(--border-color);
     color: var(--text-main); border-radius: 30px; outline: none; font-family: inherit;
 }
 .close-btn { position: absolute; top: 14px; right: 18px; cursor: pointer; color: var(--text-muted); font-size: 1.2rem; }
@@ -143,7 +141,7 @@ h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 25px; text-transform: u
 /* Уведомления */
 #notification-container { position: fixed; top: 25px; right: 25px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
 .toast {
-    background: var(--text-main); color: var(--bg-color); padding: 10px 20px; border-radius: 30px;
+    background: var(--text-main); color: var(--accent-invert); padding: 10px 20px; border-radius: 30px;
     font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
     transform: translateX(130%); transition: transform 0.3s ease;
 }
