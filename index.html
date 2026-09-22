@@ -3,243 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Разработка модов на заказ | Портфолио</title>
+    <title>MODS PRODUCTION | Разработка модов</title>
     <style>
-        /* Общие стили и геймерский темный фон */
+        /* Переменные для быстрой смены темы (Черно-белая палитра) */
+        :root {
+            --bg-color: #000000;
+            --container-bg: rgba(20, 20, 20, 0.6);
+            --card-bg: rgba(25, 25, 25, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-color: #ffffff;
+            --accent-invert: #000000;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f5f5f5;
+            --container-bg: rgba(255, 255, 255, 0.8);
+            --card-bg: #ffffff;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --text-main: #000000;
+            --text-muted: #666666;
+            --accent-color: #000000;
+            --accent-invert: #ffffff;
+        }
+
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0b0c10;
-            background-image: radial-gradient(circle at 80% 20%, rgba(0, 255, 102, 0.07) 0%, transparent 40%),
-                              radial-gradient(circle at 20% 80%, rgba(0, 191, 255, 0.07) 0%, transparent 40%);
-            color: #c5c6c7;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
+            transition: background 0.3s, color 0.3s;
             min-height: 100vh;
         }
 
-        /* Контейнер по центру */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
+        /* Навигационная панель сверху (Плашка) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            z-index: 1000;
+            box-sizing: border-box;
         }
 
-        /* Шапка сайта */
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Переключатель темы */
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .auth-btn {
+            background: var(--accent-color);
+            color: var(--accent-invert);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* Основной контент */
+        .main-content {
+            max-width: 1100px;
+            margin: 120px auto 60px auto;
+            padding: 0 20px;
+        }
+
         header {
             text-align: center;
             margin-bottom: 60px;
         }
 
         header h1 {
-            color: #ffffff;
-            font-size: 3rem;
-            margin: 0 0 15px 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 800;
-            text-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
-        }
-
-        header h1 span {
-            color: #00ff66;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin: 0 0 10px 0;
         }
 
         header p {
-            color: #66fcf1;
+            color: var(--text-muted);
             font-size: 1.2rem;
-            margin: 0;
-            font-weight: 400;
         }
 
-        /* Сетка для карточек с модами */
+        /* Сетка карточек */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 30px;
             margin-bottom: 60px;
         }
 
-        /* Стильная неоновая карточка (эффект стекла) */
         .card {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 35px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: transform 0.3s;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            border-color: #00ff66;
-            box-shadow: 0 10px 30px rgba(0, 255, 102, 0.1);
+            border-color: var(--text-main);
         }
 
         .card h3 {
-            color: #ffffff;
-            font-size: 1.4rem;
             margin: 0 0 15px 0;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .card p {
-            font-size: 1rem;
+            color: var(--text-muted);
             line-height: 1.6;
-            color: #a9b7c6;
-            margin: 0 0 20px 0;
+            margin: 0 0 25px 0;
         }
 
-        /* Теги технологий (например, Java, Forge, C#) */
-        .tags {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background: rgba(102, 252, 241, 0.1);
-            color: #66fcf1;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .price {
-            font-size: 1.3rem;
-            color: #00ff66;
-            font-weight: 700;
+        .price-tag {
+            font-size: 1.4rem;
+            font-weight: 800;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
         }
 
         /* Секция контактов */
-        .cta-section {
+        .cta-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 50px;
+            border-radius: 12px;
             text-align: center;
-            background: linear-gradient(135deg, rgba(31,40,51,0.6) 0%, rgba(11,12,16,0.8) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            border-radius: 20px;
         }
 
-        .cta-section h2 {
-            color: #ffffff;
+        .cta-box h2 {
             margin-top: 0;
-            margin-bottom: 25px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
         }
 
-        /* Кнопки соцсетей */
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 14px 30px;
-            font-size: 1rem;
-            font-weight: 700;
+        .btn-link {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--accent-invert);
+            padding: 15px 35px;
             text-decoration: none;
-            border-radius: 10px;
-            transition: all 0.2s ease;
-            cursor: pointer;
+            font-weight: bold;
+            border-radius: 6px;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: opacity 0.2s;
         }
 
-        .btn-telegram {
-            background-color: #00ff66;
-            color: #0b0c10;
+        .btn-link:hover {
+            opacity: 0.9;
         }
 
-        .btn-telegram:hover {
-            background-color: #00cc55;
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
-            transform: scale(1.03);
-        }
-
-        .btn-discord {
-            background-color: #5865F2;
-            color: #ffffff;
-        }
-
-        .btn-discord:hover {
-            background-color: #4752C4;
-            box-shadow: 0 0 20px rgba(88, 101, 242, 0.4);
-            transform: scale(1.03);
-        }
-
-        /* Адаптивность для мобилок */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 20px; }
+            .nav-links { display: none; } /* Скрываем на мобилках для простоты */
             header h1 { font-size: 2.2rem; }
-            .cta-section { padding: 25px; }
-            .btn { width: 100%; justify-content: center; box-sizing: border-box; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
+    <!-- Верхняя плашка (Навигация) -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="#">Главная</a>
+            <a href="#">Цены</a>
+            <a href="#">Отзывы</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeBtn">ТЕМА: ТЕМНАЯ</button>
+            <button class="auth-btn" onclick="alert('Регистрация пока в разработке. Нужен бэкенд-сервер!')">Войти / Регистрация</button>
+        </div>
+    </nav>
+
+    <div class="main-content">
         <header>
-            <h1>MODS <span>PRODUCTION</span></h1>
-            <p>Качественная разработка уникальных модификаций под ваши задачи</p>
+            <h1>MODS PRODUCTION</h1>
+            <p>Разработка персональных модификаций в строгом стиле</p>
         </header>
 
-        <!-- Блок с твоими услугами/модами -->
+        <!-- Исправленные карточки -->
         <div class="grid">
             
             <div class="card">
                 <div>
-                    <div class="tags">
-                        <span class="tag">Разработка</span>
-                        <span class="tag">С нуля</span>
-                    </div>
                     <h3>Создание мода под ключ</h3>
-                    <p>Напишу мод по вашему подробному техническому заданию. Полная проработка механик, оптимизация кода и отсутствие багов.</p>
+                    <p>Напишу качественный мод по твоему техническому заданию. Оптимизация кода, быстрая сборка механик.</p>
                 </div>
-                <div class="price">от 1 500 ₽</div>
+                <div class="price-tag">50 ₽</div>
             </div>
 
             <div class="card">
                 <div>
-                    <div class="tags">
-                        <span class="tag">Фиксы</span>
-                        <span class="tag">Оптимизация</span>
-                    </div>
-                    <h3>Исправление багов и доработка</h3>
-                    <p>Найду и устраню ошибки в уже готовых модах, настрою совместимость с другими модификациями или обновлю под нужную версию игры.</p>
+                    <h3>Исправление багов</h3>
+                    <p>Если я где-то накосячил или в коде вылезла ошибка — исправлю всё полностью бесплатно.</p>
                 </div>
-                <div class="price">от 500 ₽</div>
-            </div>
-
-            <div class="card">
-                <div>
-                    <div class="tags">
-                        <span class="tag">Консультация</span>
-                    </div>
-                    <h3>Помощь в настройке</h3>
-                    <p>Помогу разобраться с конфигурацией сложных сборок, установкой серверных плагинов или дам советы по оптимизации производительности.</p>
-                </div>
-                <div class="price">Договорная</div>
+                <div class="price-tag">БЕСПЛАТНО</div>
             </div>
 
         </div>
 
-        <!-- Кнопки связи -->
-        <div class="cta-section">
-            <h2>Есть идея для мода? Давайте обсудим!</h2>
-            <div class="btn-container">
-                <!-- В поле href замени текст после слэша на свои ссылки -->
-                <a href="https://t.me" target="_blank" class="btn btn-telegram">Связаться в Telegram</a>
-                <a href="https://discord.gg" target="_blank" class="btn btn-discord">Написать в Discord</a>
-            </div>
+        <div class="cta-box">
+            <h2>Есть идея для мода? Напиши мне</h2>
+            <a href="https://t.me" target="_blank" class="btn-link">Telegram</a>
         </div>
-
     </div>
+
+    <!-- Скрипт переключения темы -->
+    <script>
+        const themeBtn = document.getElementById('themeBtn');
+        let currentTheme = 'dark';
+
+        themeBtn.addEventListener('click', () => {
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeBtn.textContent = 'ТЕМА: СВЕТЛАЯ';
+                currentTheme = 'light';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeBtn.textContent = 'ТЕМА: ТЕМНАЯ';
+                currentTheme = 'dark';
+            }
+        });
+    </script>
 
 </body>
 </html>
