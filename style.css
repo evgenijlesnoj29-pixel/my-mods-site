@@ -1,7 +1,7 @@
 /* Светлая тема по умолчанию Apple-style */
 :root {
     --bg-color: #f3f4f6;
-    --card-bg: rgba(255, 255, 255, 0.8); 
+    --card-bg: rgba(255, 255, 255, 0.85); 
     --border-color: rgba(0, 0, 0, 0.08); 
     --text-main: #111111;
     --text-muted: #6b7280;
@@ -13,12 +13,11 @@
 body {
     font-family: 'Golos Text', -apple-system, sans-serif;
     background-color: var(--bg-color);
-    background-image: radial-gradient(circle at 50% -10%, rgba(0, 0, 0, 0.01) 0%, transparent 40%);
     color: var(--text-main);
     margin: 0; padding: 0;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
-    scroll-behavior: smooth; /* Плавный скролл при нажатии на кнопки */
+    scroll-behavior: smooth;
 }
 
 /* Компактный навигатор сверху */
@@ -33,7 +32,7 @@ body {
     -webkit-backdrop-filter: blur(20px);
     display: flex; justify-content: space-between; align-items: center;
     padding: 8px 16px; width: 100%; max-width: 750px; border-radius: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 }
 .nav-links { display: flex; gap: 2px; }
 .nav-links button {
@@ -51,7 +50,6 @@ body {
     background: rgba(0, 0, 0, 0.03); border: 1px solid var(--border-color);
     color: var(--text-main); padding: 8px 18px; border-radius: 30px;
     cursor: pointer; font-weight: 600; font-size: 0.8rem;
-    transition: all 0.2s ease;
 }
 .capsule-btn.filled { background: var(--accent); color: var(--accent-invert); border: none; }
 .capsule-btn:hover {
@@ -59,59 +57,77 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-/* Главный контейнер */
-.container { max-width: 750px; margin: 130px auto 60px auto; padding: 0 20px; box-sizing: border-box; }
+/* Контейнер */
+.container { max-width: 850px; margin: 150px auto 100px auto; padding: 0 20px; box-sizing: border-box; }
 
-/* Секции для скролла */
+/* БОЛЬШИЕ ОТСТУПЫ МЕЖДУ СЕКЦИЯМИ, ЧТОБЫ ОНИ НЕ СЛИПАЛИСЬ */
 .scroll-section {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    margin-bottom: 20px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    box-sizing: border-box;
 }
 
-/* Аккуратные заголовки */
-h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; text-align: center; }
-h2 { font-size: 1.6rem; font-weight: 700; margin-top: 40px; margin-bottom: 25px; text-transform: uppercase; border-top: 1px solid var(--border-color); padding-top: 40px; }
+h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; text-align: center; }
+h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -0.5px; }
 .subtitle { color: var(--text-muted); text-align: center; margin-top: 8px; margin-bottom: 40px; font-size: 1rem; }
 
-/* Капсульные стеклянные карточки */
-.glass-card, .capsule-card, .review-card, .review-form-block {
+/* Обычные карточки */
+.glass-card, .review-card, .review-form-block {
     background: var(--card-bg); 
     border: 1px solid var(--border-color);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     padding: 24px 28px; border-radius: 16px; margin-bottom: 16px;
-    box-sizing: border-box;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    transition: transform 0.25s ease, border-color 0.25s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.02);
 }
-.glass-card:hover, .capsule-card:hover, .review-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--card-hover-border);
-}
-
 .glass-card h3 { margin: 0 0 12px 0; font-size: 1.05rem; font-weight: 700; text-transform: uppercase; }
 .glass-card h4 { margin: 0 0 8px 0; font-size: 1rem; font-weight: 700; text-transform: uppercase; }
 .glass-card p { color: var(--text-muted); margin: 0; font-size: 0.9rem; line-height: 1.5; }
 
-/* Сетки */
+/* СЕТКА ТОВАРОВ ИЗ ТВОЕГО ПРИМЕРА */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+/* Базовый стиль цветной плашки */
+.product-card {
+    border-radius: 20px;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+    color: #ffffff;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s ease;
+}
+.product-card:hover { transform: translateY(-4px); }
+
+/* Цвета плашек (Градиенты как на геймерских сайтах) */
+.product-card.purple { background: linear-gradient(135deg, #4c3575 0%, #352252 100%); }
+.product-card.blue { background: linear-gradient(135deg, #2b4865 0%, #183153 100%); }
+.product-card.green { background: linear-gradient(135deg, #24523a 0%, #163524 100%); }
+
+.product-meta { font-size: 0.75rem; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.5px; }
+.product-card h3 { margin: 5px 0 15px 0; font-size: 1.3rem; font-weight: 800; color: #ffffff; }
+.product-desc { font-size: 0.9rem; line-height: 1.5; opacity: 0.8; margin: 0 0 25px 0; }
+.product-price { font-size: 1.6rem; font-weight: 900; color: #ffffff; }
+
+/* Сетки преимуществ */
 .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
 .full-width { width: 100%; }
 
-/* Тэги стэка */
+/* Тэги */
 .tags-container { display: flex; flex-wrap: wrap; gap: 8px; }
 .game-tag {
     background: rgba(0, 0, 0, 0.03); border: 1px solid var(--border-color);
     padding: 6px 14px; border-radius: 30px; font-size: 0.8rem; font-weight: 600;
 }
 
-/* Блок цен */
-.capsule-card { display: flex; justify-content: space-between; align-items: center; }
-.card-info h3 { margin: 0; font-size: 1.1rem; font-weight: 700; }
-.card-info p { color: var(--text-muted); margin: 4px 0 0 0; font-size: 0.85rem; }
-.price-value { font-size: 1.35rem; font-weight: 800; }
-
-/* Отзывы и формы */
+/* Отзывы */
 .reviews-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
 .review-form-block h3 { margin: 0 0 15px 0; font-size: 1.05rem; text-transform: uppercase; }
 .review-form-block form { display: flex; flex-direction: column; gap: 10px; }
@@ -123,12 +139,12 @@ h2 { font-size: 1.6rem; font-weight: 700; margin-top: 40px; margin-bottom: 25px;
 /* Модалка */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.4); z-index: 2000; justify-content: center; align-items: center;
+    background: rgba(0, 0, 0, 0.3); z-index: 2000; justify-content: center; align-items: center;
 }
 .modal-content {
     background: #ffffff; border: 1px solid var(--border-color);
     padding: 35px; border-radius: 20px; width: 100%; max-width: 270px; position: relative; text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
 .modal-content input {
     width: 100%; padding: 12px 20px; margin: 8px 0; box-sizing: border-box;
@@ -141,7 +157,7 @@ h2 { font-size: 1.6rem; font-weight: 700; margin-top: 40px; margin-bottom: 25px;
 /* Уведомления */
 #notification-container { position: fixed; top: 25px; right: 25px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
 .toast {
-    background: var(--text-main); color: var(--accent-invert); padding: 10px 20px; border-radius: 30px;
+    background: var(--text-main); color: var(--bg-color); padding: 10px 20px; border-radius: 30px;
     font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
     transform: translateX(130%); transition: transform 0.3s ease;
 }
