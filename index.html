@@ -11,31 +11,33 @@
 </head>
 <body>
 
-    <!-- КИНЕМАТОГРАФИЧНАЯ ЗАСТАВКА С КАРТИНКОЙ -->
+    <!-- Заставка из Майнкрафта -->
     <div id="intro-screen">
         <div class="intro-title">MODS PRODUCTION</div>
     </div>
 
     <div id="notification-container"></div>
 
-    <!-- Навигация -->
+    <!-- Навигация (Добавлена вкладка Магазин) -->
     <div class="navbar-container">
         <nav class="navbar">
             <div class="nav-links">
-                <button class="nav-btn active" data-target="main">Главная</button>
-                <button class="nav-btn" data-target="prices">Цены</button>
-                <button class="nav-btn" data-target="reviews">Отзывы</button>
+                <button class="nav-btn active" data-type="scroll" data-target="main">Главная</button>
+                <button class="nav-btn" data-type="scroll" data-target="prices">Цены</button>
+                <button class="nav-btn" data-type="scroll" data-target="reviews">Отзывы</button>
+                <button class="nav-btn" data-type="page" data-target="shop">Магазин</button>
             </div>
             <div class="nav-right">
                 <button class="capsule-btn" id="themeToggle">ТЕМНАЯ</button>
                 <div id="authSection">
-                    <button class="capsule-btn blue-btn" id="openAuthBtn">Войти</button>
+                    <button class="capsule-btn filled blue-btn" id="openAuthBtn">Войти</button>
                 </div>
             </div>
         </nav>
     </div>
 
-    <div class="container">
+    <!-- ОСНОВНОЙ ЛЕНДИНГ (Скроллится) -->
+    <div class="container" id="landing-container">
         
         <!-- СЕКЦИЯ: ГЛАВНАЯ -->
         <section id="main" class="scroll-section">
@@ -132,6 +134,24 @@
 
     </div>
 
+    <!-- ОТДЕЛЬНАЯ СТРАНИЦА: МАГАЗИН ГОТОВЫХ МОДОВ (Не скроллится вместе с лендингом) -->
+    <div class="container" id="shop-container" style="display: none;">
+        <section style="padding: 40px 0; border: none;">
+            <h2>Магазин готовых модов</h2>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Скачивайте готовые приватные модификации и сборки мгновенно.</p>
+            
+            <!-- Поиск по каталогу -->
+            <div class="search-box-container">
+                <input type="text" id="shopSearchInput" placeholder="Введите название мода или версию для поиска...">
+            </div>
+
+            <!-- Сетка готовых товаров магазина -->
+            <div class="products-grid" id="shopItemsContainer">
+                <!-- Сюда товары залетят из script.js автоматически -->
+            </div>
+        </section>
+    </div>
+
     <!-- ПОДВАЛ -->
     <footer class="site-footer">
         <div class="footer-content">
@@ -144,18 +164,16 @@
         </div>
     </footer>
 
-    <!-- Общее модальное окно для юридических текстов -->
+    <!-- Юридические модалки -->
     <div class="modal" id="legalModal">
         <div class="modal-content" style="max-width: 500px; text-align: left;">
             <span class="close-btn" id="closeLegalBtn">&times;</span>
             <h3 id="legalTitle" style="text-transform: uppercase; margin-bottom: 20px;">Юридический документ</h3>
-            <div id="legalText" style="font-size: 0.9rem; line-height: 1.6; max-height: 300px; overflow-y: auto; color: var(--text-muted);">
-                Текст документа...
-            </div>
+            <div id="legalText" style="font-size: 0.9rem; line-height: 1.6; max-height: 300px; overflow-y: auto; color: var(--text-muted);"></div>
         </div>
     </div>
 
-    <!-- Модалка аккаунта -->
+    <!-- Модалка входа -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <span class="close-btn" id="closeModalBtn">&times;</span>
