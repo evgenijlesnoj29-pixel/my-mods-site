@@ -7,14 +7,14 @@
     <!-- Подключаем пак красивых геймерских шрифтов -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Golos+Text:wght@700;900&family=JetBrains+Mono:wght@500;700;800&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=Golos+Text:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="notification-container"></div>
 
-    <!-- Навигация -->
+    <!-- Навигация (Кнопка темы возвращена на место) -->
     <div class="navbar-container">
         <nav class="navbar">
             <div class="nav-links">
@@ -23,6 +23,7 @@
                 <button class="nav-btn" data-target="reviews">Отзывы</button>
             </div>
             <div class="nav-right">
+                <button class="capsule-btn" id="themeToggle">ТЕМНАЯ</button>
                 <div id="authSection">
                     <button class="capsule-btn blue-btn" id="openAuthBtn">Войти</button>
                 </div>
@@ -76,6 +77,7 @@
             
             <div class="products-grid">
                 
+                <!-- Фиолетовая плашка (Версии 1.21 - 1.21.11) -->
                 <div class="product-card purple">
                     <div class="product-header">
                         <span class="product-meta">ТАРИФ Версии 1.21 - 1.21.11</span>
@@ -85,6 +87,7 @@
                     <div class="product-price">1249 ₽</div>
                 </div>
 
+                <!-- Синяя плашка (Версии 1.12.2 - 1.20) -->
                 <div class="product-card blue">
                     <div class="product-header">
                         <span class="product-meta">ТАРИФ Версии 1.12.2 - 1.20</span>
@@ -94,6 +97,7 @@
                     <div class="product-price">799 ₽</div>
                 </div>
 
+                <!-- Зеленая плашка (Фиксы) -->
                 <div class="product-card green">
                     <div class="product-header">
                         <span class="product-meta">РАЗОВАЯ УСЛУГА</span>
@@ -120,7 +124,7 @@
             </div>
 
             <div class="reviews-grid" id="reviewsContainer">
-                <!-- Отзывы -->
+                <!-- Отзывы вставляются из script.js автоматически -->
             </div>
         </section>
 
@@ -138,7 +142,7 @@
         </div>
     </footer>
 
-    <!-- Модалка -->
+    <!-- Модалка аккаунта -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <span class="close-btn" id="closeModalBtn">&times;</span>
