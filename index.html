@@ -4,19 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MODS PRODUCTION</title>
-    <!-- Подключаем наш файл со стилями -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Анимированные фоновые круги -->
-    <div class="bg-animation">
-        <div class="circle c1"></div>
-        <div class="circle c2"></div>
-        <div class="circle c3"></div>
-    </div>
-
-    <!-- Контейнер для кастомных уведомлений сверху -->
+    <!-- Контейнер для уведомлений сверху -->
     <div id="notification-container"></div>
 
     <!-- Капсульная навигация -->
@@ -44,24 +36,24 @@
             <p class="subtitle">Создание модов на заказ под твои идеи.</p>
             
             <div id="clientZone" style="display: none;">
-                <h3 style="margin:0; color: #00ff66;">🔓 ДОСТУП В ПАНЕЛЬ ОТКРЫТ</h3>
-                <p style="margin: 5px 0 0 0;" id="clientGreeting"></p>
+                <h3>ДОСТУП В ПАНЕЛЬ ОТКРЫТ</h3>
+                <p id="clientGreeting"></p>
             </div>
 
             <div class="features-grid">
                 <div class="feature-box">
-                    <h4>⚡ СКОРОСТЬ</h4>
+                    <h4>СКОРОСТЬ</h4>
                     <p>Скрипты за пару часов. Крупные моды — от 1 дня.</p>
                 </div>
                 <div class="feature-box">
-                    <h4>🛠️ ОПТИМИЗАЦИЯ</h4>
+                    <h4>ОПТИМИЗАЦИЯ</h4>
                     <p>Код без лагов. Моды не просадят FPS в игре.</p>
                 </div>
             </div>
 
-            <div class="feature-box" style="margin-top: 20px;">
+            <div class="feature-box full-width">
                 <h3>КАК СДЕЛАТЬ ЗАКАЗ</h3>
-                <p style="line-height: 1.6; margin: 0;">Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь 50 ₽ и забираешь файл.</p>
+                <p>Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь 50 ₽ и забираешь файл.</p>
             </div>
         </div>
 
@@ -69,16 +61,16 @@
         <div id="page-prices" class="page">
             <h2>Цены на разработку</h2>
             <div class="capsule-card">
-                <div>
-                    <h3 style="margin:0;">Создание мода под ключ</h3>
-                    <p style="margin: 5px 0 0 0;">Сборка механик по твоему детальному ТЗ.</p>
+                <div class="card-info">
+                    <h3>Создание мода под ключ</h3>
+                    <p>Сборка механик по твоему детальному ТЗ.</p>
                 </div>
                 <div class="price-value">50 ₽</div>
             </div>
             <div class="capsule-card">
-                <div>
-                    <h3 style="margin:0;">Исправление багов</h3>
-                    <p style="margin: 5px 0 0 0;">Если я накосячил — исправляю полностью бесплатно.</p>
+                <div class="card-info">
+                    <h3>Исправление багов</h3>
+                    <p>Если я накосячил — исправлю полностью бесплатно.</p>
                 </div>
                 <div class="price-value">0 ₽</div>
             </div>
@@ -87,8 +79,19 @@
         <!-- СТРАНИЦА: ОТЗЫВЫ -->
         <div id="page-reviews" class="page">
             <h2>Отзывы заказчиков</h2>
+            
+            <!-- Форма добавления отзыва -->
+            <div class="review-form-block">
+                <h3>Оставить отзыв</h3>
+                <form id="addReviewForm">
+                    <input type="text" id="reviewAuthor" placeholder="Твое имя" required>
+                    <input type="text" id="reviewText" placeholder="Текст отзыва (макс. 50 символов)" required>
+                    <button type="submit" class="capsule-btn filled">Отправить</button>
+                </form>
+            </div>
+
             <div class="reviews-grid" id="reviewsContainer">
-                <!-- Отзывы подгрузятся из script.js автоматически -->
+                <!-- Отзывы грузятся отсюда -->
             </div>
         </div>
 
@@ -108,7 +111,6 @@
         </div>
     </div>
 
-    <!-- Подключаем наш файл с логикой -->
     <script src="script.js"></script>
 </body>
 </html>
