@@ -11,14 +11,9 @@
 </head>
 <body>
 
-    <!-- Заставка из Майнкрафта -->
-    <div id="intro-screen">
-        <div class="intro-title">MODS PRODUCTION</div>
-    </div>
-
     <div id="notification-container"></div>
 
-    <!-- Навигация (Добавлена вкладка Магазин) -->
+    <!-- Навигация -->
     <div class="navbar-container">
         <nav class="navbar">
             <div class="nav-links">
@@ -36,7 +31,7 @@
         </nav>
     </div>
 
-    <!-- ОСНОВНОЙ ЛЕНДИНГ (Скроллится) -->
+    <!-- ОСНОВНОЙ ЛЕНДИНГ -->
     <div class="container" id="landing-container">
         
         <!-- СЕКЦИЯ: ГЛАВНАЯ -->
@@ -44,23 +39,23 @@
             <h1>MODS PRODUCTION</h1>
             <p class="subtitle">Создание приватных модификаций и скриптов под твои идеи.</p>
             
-            <div id="clientZone" class="glass-card layout-animation" style="display: none; text-align: center;">
+            <div id="clientZone" class="glass-card layout-animation appear" style="display: none; text-align: center;">
                 <h3>ДОСТУП В ПАНЕЛЬ ОТКРЫТ</h3>
                 <p id="clientGreeting"></p>
             </div>
 
             <div class="features-grid">
-                <div class="glass-card layout-animation">
+                <div class="glass-card layout-animation appear">
                     <h4>СКОРОСТЬ</h4>
                     <p>Скрипты за пару часов. Крупные моды — от 1 дня.</p>
                 </div>
-                <div class="glass-card layout-animation">
+                <div class="glass-card layout-animation appear">
                     <h4>ОПТИМИЗАЦИЯ</h4>
                     <p>Код без лагов. Модификации не просадят FPS в игре.</p>
                 </div>
             </div>
 
-            <div class="glass-card full-width layout-animation">
+            <div class="glass-card full-width layout-animation appear">
                 <h3>ПОДДЕРЖИВАЕМЫЕ ПЛАТФОРМЫ</h3>
                 <div class="tags-container">
                     <span class="game-tag">Minecraft (Forge)</span>
@@ -70,7 +65,7 @@
                 </div>
             </div>
 
-            <div class="glass-card full-width layout-animation">
+            <div class="glass-card full-width layout-animation appear">
                 <h3>КАК СДЕЛАТЬ ЗАКАЗ</h3>
                 <p style="line-height: 1.6; margin-bottom: 20px;">Свяжись со мной через контакты, скинь ТЗ, я запишу видео готовой работы, ты оплачиваешь и забираешь готовый файл.</p>
                 <div style="text-align: center; margin-top: 15px;">
@@ -85,7 +80,7 @@
             <p style="color: var(--text-muted); margin-bottom: 30px;">Выберите нужный вариант для вашего проекта модификации.</p>
             
             <div class="products-grid">
-                <div class="product-card purple layout-animation">
+                <div class="product-card purple layout-animation appear">
                     <div class="product-header">
                         <span class="product-meta">ТАРИФ Версии 1.21 - 1.21.11</span>
                         <h3>Актуальные сборки</h3>
@@ -94,7 +89,7 @@
                     <div class="product-price">50 ₽</div>
                 </div>
 
-                <div class="product-card blue layout-animation">
+                <div class="product-card blue layout-animation appear">
                     <div class="product-header">
                         <span class="product-meta">ТАРИФ Версии 1.12.2 - 1.20</span>
                         <h3>Классические сборки</h3>
@@ -103,7 +98,7 @@
                     <div class="product-price">50 ₽</div>
                 </div>
 
-                <div class="product-card green layout-animation">
+                <div class="product-card green layout-animation appear">
                     <div class="product-header">
                         <span class="product-meta">РАЗОВАЯ УСЛУГА</span>
                         <h3>Фиксы и баги</h3>
@@ -118,7 +113,7 @@
         <section id="reviews" class="scroll-section">
             <h2>Отзывы заказчиков</h2>
             
-            <div class="review-form-block layout-animation">
+            <div class="review-form-block layout-animation appear">
                 <h3>Оставить отзыв</h3>
                 <form id="addReviewForm">
                     <input type="text" id="reviewAuthor" placeholder="Твое имя" required>
@@ -134,20 +129,38 @@
 
     </div>
 
-    <!-- ОТДЕЛЬНАЯ СТРАНИЦА: МАГАЗИН ГОТОВЫХ МОДОВ (Не скроллится вместе с лендингом) -->
+    <!-- СЕКЦИЯ: МАГАЗИН -->
     <div class="container" id="shop-container" style="display: none;">
         <section style="padding: 40px 0; border: none;">
             <h2>Магазин готовых модов</h2>
             <p style="color: var(--text-muted); margin-bottom: 30px;">Скачивайте готовые приватные модификации и сборки мгновенно.</p>
             
-            <!-- Поиск по каталогу -->
+            <!-- СЕКРЕТНАЯ АДМИН-ПАНЕЛЬ -->
+            <div class="review-form-block" id="adminPanelBlock" style="display: none; border: 1px dashed var(--blue-color); margin-bottom: 40px;">
+                <h3 style="color: var(--blue-color); margin-top: 0;">⚙️ Панель Администратора: Добавить мод</h3>
+                <form id="addModForm" style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="text" id="modTitle" placeholder="Название мода" required>
+                    <input type="text" id="modVersion" placeholder="Версия (например: 1.21.1 Forge)" required>
+                    <input type="text" id="modDesc" placeholder="Краткое описание" required>
+                    <input type="text" id="modPrice" placeholder="Цена (например: 150 ₽)" required>
+                    <input type="text" id="modLink" placeholder="Ссылка на покупку (твоя ТГ ссылка)" required>
+                    <select id="modColor" style="padding: 12px 20px; background: rgba(125, 125, 125, 0.05); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 30px; outline: none; font-family: inherit;">
+                        <option value="purple" style="color: #000;">Фиолетовая плашка</option>
+                        <option value="blue" style="color: #000;">Синяя плашка</option>
+                        <option value="green" style="color: #000;">Зеленая плашка</option>
+                    </select>
+                    <button type="submit" class="capsule-btn blue-btn" style="margin-top: 10px;">Выложить мод на сайт</button>
+                </form>
+            </div>
+
+            <!-- Поиск -->
             <div class="search-box-container">
                 <input type="text" id="shopSearchInput" placeholder="Введите название мода или версию для поиска...">
             </div>
 
-            <!-- Сетка готовых товаров магазина -->
+            <!-- Сетка товаров -->
             <div class="products-grid" id="shopItemsContainer">
-                <!-- Сюда товары залетят из script.js автоматически -->
+                <!-- Сюда залетают моды -->
             </div>
         </section>
     </div>
@@ -181,7 +194,7 @@
             <form id="authForm">
                 <input type="text" id="username" placeholder="Логин" required>
                 <input type="password" id="password" placeholder="Пароль" required>
-                <button type="submit" class="capsule-btn blue-btn" id="submitAuthBtn">ВОЙТИ</button>
+                                <button type="submit" class="capsule-btn blue-btn" id="submitAuthBtn">ВОЙТИ</button>
             </form>
             <div class="switch-form" id="switchFormBtn">Нет аккаунта? Зарегистрироваться</div>
         </div>
@@ -190,3 +203,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
